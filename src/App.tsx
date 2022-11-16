@@ -4,16 +4,11 @@ import BasicInput from './components/BasicInput';
 
 class FormGen {
   formElements: any = []; // TODO: Make a FormElement interface.
+  // onSubmit, onStep event listeners in the future.
 
   generate() {
     return () => {
       const [state, setState] = useState<any>({});
-
-      function updateField(field: string, value: any){
-        state[field] = value;
-        console.log(state);
-        setState(state);
-      }
       console.log(state);
 
       return (
@@ -24,7 +19,7 @@ class FormGen {
               const props = {
                 name: field.name,
                 state,
-                updateField
+                setState
               }
               return (<Component key={field.name} {...props}/>);
             })

@@ -1,0 +1,11 @@
+TODO: figure out a validation system, how to put assertions and messages
+
+TODO: form events the rest of the app could hook onto (onStateUpdate, onFormStep, onSubmit)
+
+TODO: pagination
+
+TODO: lax up component state?
+
+TODO: field groups, maybe just group by page?
+
+TODO: typesafety and intefaces
