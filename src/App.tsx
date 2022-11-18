@@ -4,15 +4,27 @@ import BasicInput from './components/BasicInput';
 import FormGenerator from './form-generation/FormGenerator';
 
 const formGen = new FormGenerator();
-formGen.formElements = [
-  { name: 'test_field', component: BasicInput },
-  { name: 'test_field2', component: BasicInput }
-];
+
+formGen.sections = {
+  userInfo: {
+    next: 'additionalDetails',
+    elements: [
+      { name: 'test_field', group: 'details', component: BasicInput },
+      { name: 'test_field2', component: BasicInput },
+      { name: 'test_field4', group: 'details', component: BasicInput },
+    ]
+  },
+  additionalDetails: {
+    prev: 'userInfo',
+    elements: [
+      { name: 'test_field3', component: BasicInput },
+    ]
+  }  
+};
+formGen.startOn = 'userInfo';
+const { FormComponent } = formGen.generate();
 
 function App() {
-
-
-  const { FormComponent } = formGen.generate();
 
   return (
     <div className="App">
