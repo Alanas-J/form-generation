@@ -11,19 +11,18 @@ class FormGenerator {
       const [formState, setFormState] = useState<any>({
         _section: this.startOn
       });
-      console.log(formState);
-
+      
       const setField = (name: string, value: any, group: string|undefined = undefined) => {
         if(group){
-          if (formState[group] === undefined) {
-            formState[group] = {};
-            formState[group][name] = {};
-          } 
+          if (formState[group] === undefined) formState[group] = {};
+          if (formState[group][name] === undefined) formState[group][name] = {};
+
           formState[group][name].value = value;
         } else {
           if (formState[name] === undefined) formState[name] = {};
           formState[name].value = value;
         }
+        console.log(formState);
         setFormState({...formState});
       }
   
