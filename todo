@@ -9,3 +9,5 @@ TODO: lax up component state?
 TODO: field groups, maybe just group by page?
 
 TODO: typesafety and intefaces
+
+TODO: conditional field + label support

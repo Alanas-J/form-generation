@@ -1,36 +1,9 @@
-import { useState } from 'react';
+
 import './App.css';
 import BasicInput from './components/BasicInput';
+import FormGenerator from './form-generation/FormGenerator';
 
-class FormGen {
-  formElements: any = []; // TODO: Make a FormElement interface.
-  // onSubmit, onStep event listeners in the future.
-
-  generate() {
-    return () => {
-      const [state, setState] = useState<any>({});
-      console.log(state);
-
-      return (
-        <>
-          { 
-            this.formElements.map((field: any) => {
-              const Component = field.component
-              const props = {
-                name: field.name,
-                state,
-                setState
-              }
-              return (<Component key={field.name} {...props}/>);
-            })
-          }
-        </>
-      );
-    }
-  }
-}
-
-const formGen = new FormGen()
+const formGen = new FormGenerator();
 formGen.formElements = [
   { name: 'test_field', component: BasicInput },
   { name: 'test_field2', component: BasicInput }
@@ -39,7 +12,7 @@ formGen.formElements = [
 function App() {
 
 
-  const FormComponent = formGen.generate();
+  const { FormComponent } = formGen.generate();
 
   return (
     <div className="App">
