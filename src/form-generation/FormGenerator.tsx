@@ -66,12 +66,20 @@ class FormGenerator {
     const formAction = (action: string) => {
       switch(action) {
         case 'next':
-          if (_setFormState && this.sections[_formState._section].next) _setFormState({ ..._formState, _section: this.sections[_formState._section].next});
-          if(this.onStep) this.onStep(_formState);
+          if (_setFormState && this.sections[_formState._section].next){
+            const formState = { ..._formState, _section: this.sections[_formState._section].next};
+             _setFormState(formState)
+
+             if(this.onStep) this.onStep(formState);
+          }
           break;
         case 'previous':
-          if (_setFormState && this.sections[_formState._section].previous) _setFormState({ ..._formState, _section: this.sections[_formState._section].previous});
-          if(this.onStep) this.onStep(_formState);
+          if (_setFormState && this.sections[_formState._section].previous){
+            const formState = { ..._formState, _section: this.sections[_formState._section].previous};
+             _setFormState(formState)
+
+             if(this.onStep) this.onStep(formState);
+          }
           break;
         case 'submit':
           console.log('submit');
