@@ -12,29 +12,29 @@ formGen.sections = {
       { 
         name: 'test_field',
         group: 'details',  
-        label: 'Test Field',
-        placeholder: 'Text goes here...', 
-        component: BasicInput 
+        component: BasicInput,
+        additionalProps: { label: 'Test Field', placeholder: 'Text goes here...' }
       },
       { 
         name: 'test_field2', 
-        label: 'Test Field 2',
-        placeholder: 'Text goes here...', 
-        component: BasicInput
+        component: BasicInput,
+        additionalProps: { label: 'Test Field', placeholder: 'Text goes here...' },
       },
       { 
         name: 'test_field3', 
         group: 'details',
-        label: 'Test Field 3',
-        placeholder: 'Text goes sdfgsdfgsdfg...', 
-        component: BasicInput
+        component: BasicInput,
+        additionalProps: { label: 'Test Field', placeholder: 'Text goes here...' }
       },
     ]
   },
   additionalDetails: {
     previous: 'userInfo',
     elements: [
-      { name: 'test_field4', component: BasicInput },
+      { name: 'test_field4',
+       component: BasicInput,
+       additionalProps: { label: 'Test Field', placeholder: 'Text goes here...' } 
+      },
     ]
   }  
 };
