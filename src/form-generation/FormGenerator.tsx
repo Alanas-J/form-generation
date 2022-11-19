@@ -7,7 +7,6 @@ class FormGenerator {
   onSubmit: any; // TODO: Not plugged in yet.
   
   generate(): any {
-    // Variables/hooks to export can be placed here
     let _formState: any = null;
     let _setFormState: any = null;
 
