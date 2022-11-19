@@ -20,9 +20,7 @@ const checkRegex = (errorMessage: string, regex: RegExp) => {
     return (value: string | undefined) => {
         if(value === undefined) value = '';
 
-        console.log(value, regex.test(value));
         if(value && regex.test(value)){
-            
             return { 
                 error: false 
             };

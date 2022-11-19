@@ -142,8 +142,9 @@ function validateField( element: any, formState: any) {
 function validateFields(elements: any, formState: any): boolean {
   let error: boolean = false;
 
-  elements.forEach((element: any) => {
-    error =  error || !validateField(element, formState)
-  });
+  for(const element of elements){
+    const elementError = !validateField(element, formState)
+    error =  error || elementError;
+  }
   return !error;
 }
