@@ -29,7 +29,7 @@ class FormGenerator {
           if (formState[name] === undefined) formState[name] = {};
           formState[name].value = value;
         }
-        console.log(formState);
+        console.log(`Field ${group || ''}.${name} set to ${value}`, formState);
         setFormState({...formState});
       };
 

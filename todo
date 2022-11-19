@@ -1,13 +1,20 @@
+-- Future Tasks
+
 TODO: figure out a validation system, how to put assertions and messages
-
-TODO: form events the rest of the app could hook onto (onStateUpdate, onFormStep, onSubmit)
-
-TODO: pagination
 
 TODO: lax up component state?
 
-TODO: field groups, maybe just group by page?
+TODO: caching support
 
 TODO: typesafety and intefaces
 
 TODO: conditional field + label support
+
+
+---- Finished
+
+TODO: form events the rest of the app could hook onto (onStateUpdate, onFormStep, onSubmit) (done)
+
+TODO: pagination (done) 
+
+TODO: field groups, maybe just group by page? (done)
