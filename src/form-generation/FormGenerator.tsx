@@ -43,14 +43,11 @@ class FormGenerator {
               }
               
               const props = {
-                name: element.name,
-                group: element.group,
-                label: element.label,
-                text: element.text,
-                placeholder: element.placeholder,
-                
+                ...element,
                 value,
-                setValue
+                setValue,
+                formState,
+                setFormState
               }
               return (<Component key={element.name} {...props}/>);
             })

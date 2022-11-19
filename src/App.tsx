@@ -34,7 +34,7 @@ formGen.sections = {
   additionalDetails: {
     prev: 'userInfo',
     elements: [
-      { name: 'test_field3', component: BasicInput },
+      { name: 'test_field4', component: BasicInput },
     ]
   }  
 };
