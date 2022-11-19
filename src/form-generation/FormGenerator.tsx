@@ -21,16 +21,7 @@ class FormGenerator {
             this.sections[formState._section].elements.map((element: any) => {
               const Component = element.component;
 
-              let value = '';
-              let validation = {};
-              if(formState[element.group]){
-                value = formState[element.group][element.name]?.value ?? '';
-                validation = formState[element.group][element.name]?.validation ?? {};
-              } else {
-                value = formState[element.name]?.value ?? '';
-                validation = formState[element.name]?.validation ?? {};
-              }
-
+              let {value, validation} = getFieldState(element, formState);
               const setValue = (value: any) => setField(element, value, formState, setFormState);
               const validate = () => {
                 validateField(element, formState);
@@ -87,6 +78,39 @@ class FormGenerator {
 }
 export default FormGenerator;
 
+function getFieldState(element: any, formState: any) {
+  let value;
+  let validation;
+
+  if(formState[element.group]){ 
+    value = formState[element.group][element.name]?.value;
+    validation = formState[element.group][element.name]?.validation ?? {};
+  } else {
+    value = formState[element.name]?.value;
+    validation = formState[element.name]?.validation ?? {};
+  }
+
+  if(value === undefined) {
+    if(element.defaultValue) {
+      const {group, name} = element; 
+      value = element.defaultValue;
+
+      if(element.group){
+        if (formState[group] === undefined) formState[group] = {};
+        formState[group][name] = {};
+        formState[element.group][element.name].value = element.defaultValue;
+      } else {
+        formState[name] = {};
+        formState[name].value = element.defaultValue;
+      }
+    } else {
+      value = '';
+    }
+  }
+
+  return {value, validation};
+}
+
 function setField( element: any, value: any, formState: any, setFormState: any) {
   const {group, name} = element;
   
@@ -95,10 +119,12 @@ function setField( element: any, value: any, formState: any, setFormState: any) 
     if (formState[group][name] === undefined) formState[group][name] = {};
     
     formState[group][name].value = value;
-    if(formState[group][name]?.validation?.error) validateField(element, formState)
+    if(formState[group][name]?.validation?.error) validateField(element, formState);
   } else {
     if (formState[name] === undefined) formState[name] = {};
+
     formState[name].value = value;
+    if(formState[name]?.validation?.error) validateField(element, formState);
   }
   console.log(`Field ${group || ''}.${name} set to ${value}`, formState);
   setFormState({...formState});

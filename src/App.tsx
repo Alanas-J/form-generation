@@ -1,6 +1,7 @@
 import './App.css';
 import BasicFieldDisplay from './components/BasicFieldDisplay';
 import BasicInput from './components/BasicInput';
+import Radio from './components/Radio';
 import SectionTitle from './components/SectionTitle';
 import StateDisplay from './components/StateDisplay';
 import { isMandatory, checkRegex } from './components/validations';
@@ -35,6 +36,16 @@ formGen.sections = {
           isMandatory('Please provide your email.'),
           checkRegex('Please provide a valid email.', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         ]
+      },
+      { 
+        name: 'showExtraField', 
+        group: 'details',
+        defaultValue: 'No',
+        component: Radio,
+        additionalProps: {
+          label: 'Would you like to show the extra field?',
+          options: ['Yes', 'No']
+        }
       },
       { 
         name: 'extra', 
