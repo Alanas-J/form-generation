@@ -3,11 +3,8 @@ import { useState } from 'react';
 class FormGenerator {
   startOn: string = '';
   sections: any;
-
-  // Events
   onStep: any;
-  onSubmit: any;
-  // onSubmit, onStep event listeners in the future.
+  onSubmit: any; // TODO: Not plugged in yet.
   
   generate(): any {
     // Variables/hooks to export can be placed here
