@@ -2,7 +2,7 @@ import './App.css';
 import BasicFieldDisplay from './components/BasicFieldDisplay';
 import BasicInput from './components/BasicInput';
 import SectionTitle from './components/SectionTitle';
-import { isMandatory } from './components/validations';
+import { isMandatory, checkRegex } from './components/validations';
 import FormGenerator from './form-generation/FormGenerator';
 
 const formGen = new FormGenerator();
@@ -30,6 +30,10 @@ formGen.sections = {
         group: 'details', 
         component: BasicInput,
         additionalProps: { label: 'Email', placeholder: 'Enter your email...' },
+        validations: [
+          isMandatory('Please provide your email.'),
+          checkRegex('Please provide a valid email.', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+        ]
       },
       { 
         name: 'extra', 

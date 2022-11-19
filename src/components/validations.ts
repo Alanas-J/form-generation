@@ -1,5 +1,5 @@
 
-// Returns a isMandatory function with the definited errorMessage.
+// Returns a isMandatory function with the defined errorMessage.
 const isMandatory = (errorMessage: string) => {
     return (value: string | undefined) => {
         if(value === '' || value === undefined) {
@@ -15,4 +15,24 @@ const isMandatory = (errorMessage: string) => {
     };
 };
 
-export {isMandatory}
+// Returns a defined regex checker with defined error message
+const checkRegex = (errorMessage: string, regex: RegExp) => {
+    return (value: string | undefined) => {
+        if(value === undefined) value = '';
+
+        console.log(value, regex.test(value));
+        if(value && regex.test(value)){
+            
+            return { 
+                error: false 
+            };
+        } else {
+            return { 
+                error: true, 
+                message: errorMessage
+            }
+        }
+    };
+};
+
+export {isMandatory, checkRegex}
