@@ -42,6 +42,10 @@ class FormGenerator {
               const setValue = (value: any) => {
                 setField(element.name, value, element.group);
               }
+              const validate = () => {
+                console.log('will validate in the future');
+              }
+
               let value = '';
               let validation = {};
               if(formState[element.group]){
@@ -58,7 +62,8 @@ class FormGenerator {
                 setValue,
                 formState,
                 setFormState,
-                validation
+                validation,
+                validate
                 // TODO: add a validate() function
               }
               return (<Component key={element.name} {...props}/>);

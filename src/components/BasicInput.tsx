@@ -4,7 +4,7 @@ function BasicInput({ name, additionalProps, value, setValue, validation, valida
   return (
     <div className="mb-3">
       <label className="form-label">{additionalProps.label}</label>
-      <input type="text" className={inputClasses} name={name} placeholder={additionalProps.placeholder} value={value} onChange={e => setValue(e.target.value)} />
+      <input type="text" className={inputClasses} name={name} placeholder={additionalProps.placeholder} value={value} onChange={e => setValue(e.target.value)} onBlur={() => validate()}/>
       <div className="invalid-feedback">
         {validation.message || 'undefined'}
       </div>
