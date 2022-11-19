@@ -43,10 +43,13 @@ class FormGenerator {
                 setField(element.name, value, element.group);
               }
               let value = '';
+              let validation = {};
               if(formState[element.group]){
                 value = formState[element.group][element.name]?.value ?? '';
+                validation = formState[element.group][element.name]?.validation ?? {};
               } else {
                 value = formState[element.name]?.value ?? '';
+                validation = formState[element.name]?.validation ?? {};
               }
               
               const props = {
@@ -54,7 +57,9 @@ class FormGenerator {
                 value,
                 setValue,
                 formState,
-                setFormState
+                setFormState,
+                validation
+                // TODO: add a validate() function
               }
               return (<Component key={element.name} {...props}/>);
             })
