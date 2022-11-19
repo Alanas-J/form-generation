@@ -35,7 +35,7 @@ class FormGenerator {
                 validation = formState[element.name]?.validation ?? {};
               }
 
-              const setValue = (value: any) => setField(element.name, element.group, value, formState, setFormState);
+              const setValue = (value: any) => setField(element, value, formState, setFormState);
               const validate = () => {
                 validateField(element, formState);
                 setFormState({...formState});
@@ -91,12 +91,15 @@ class FormGenerator {
 }
 export default FormGenerator;
 
-function setField( name: string, group: string|undefined, value: any, formState: any, setFormState: any) {
+function setField( element: any, value: any, formState: any, setFormState: any) {
+  const {group, name} = element;
+  
   if(group){
     if (formState[group] === undefined) formState[group] = {};
     if (formState[group][name] === undefined) formState[group][name] = {};
-
+    
     formState[group][name].value = value;
+    if(formState[group][name]?.validation?.error) validateField(element, formState)
   } else {
     if (formState[name] === undefined) formState[name] = {};
     formState[name].value = value;
