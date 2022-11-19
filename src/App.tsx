@@ -2,6 +2,7 @@ import './App.css';
 import BasicFieldDisplay from './components/BasicFieldDisplay';
 import BasicInput from './components/BasicInput';
 import SectionTitle from './components/SectionTitle';
+import StateDisplay from './components/StateDisplay';
 import { isMandatory, checkRegex } from './components/validations';
 import FormGenerator from './form-generation/FormGenerator';
 
@@ -71,6 +72,7 @@ formGen.sections = {
       { name: 'email', group: 'details', component: BasicFieldDisplay },
       { name: 'extra', group: 'details', component: BasicFieldDisplay },
       { name: 'test_field4', component: BasicFieldDisplay },
+      { name: 'state_display', component: StateDisplay },
     ]
   }  
 };
