@@ -7,10 +7,13 @@ class FormGenerator {
   
   generate(): any {
     // Variables/hooks to export can be placed here
+    let _formState: any = null;
+    let _setFormState: any = null;
+
     const FormComponent = () => {
-      const [formState, setFormState] = useState<any>({
-        _section: this.startOn
-      });
+      const [formState, setFormState] = useState<any>({_section: this.startOn});
+      _setFormState = setFormState;
+      _formState = formState;
       
       const setField = (name: string, value: any, group: string|undefined = undefined) => {
         if(group){
@@ -24,8 +27,8 @@ class FormGenerator {
         }
         console.log(formState);
         setFormState({...formState});
-      }
-  
+      };
+
       return (
         <>
           { 
@@ -55,7 +58,25 @@ class FormGenerator {
         </>
       );
     };
-    return { FormComponent }
+
+    const formAction = (action: string) => {
+      switch(action) {
+        case 'next':
+          if (_setFormState && this.sections[_formState._section].next) _setFormState({ ..._formState, _section: this.sections[_formState._section].next});
+          console.log('next');
+          break;
+        case 'previous':
+          if (_setFormState && this.sections[_formState._section].previous) _setFormState({ ..._formState, _section: this.sections[_formState._section].previous});
+          console.log('back');
+          break;
+        case 'submit':
+          console.log('submit');
+          break;
+      }
+      return _formState;
+    }
+
+    return { FormComponent, formAction }
   }
 }
 export default FormGenerator;

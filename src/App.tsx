@@ -32,14 +32,14 @@ formGen.sections = {
     ]
   },
   additionalDetails: {
-    prev: 'userInfo',
+    previous: 'userInfo',
     elements: [
       { name: 'test_field4', component: BasicInput },
     ]
   }  
 };
 formGen.startOn = 'userInfo';
-const { FormComponent } = formGen.generate();
+const { FormComponent, formAction } = formGen.generate();
 
 function App() {
 
@@ -47,7 +47,10 @@ function App() {
     <div className="App">
       <h1>Header</h1>
         <FormComponent/>
+        <button onClick={() => formAction('previous')}>Back</button>
+        <button onClick={() => formAction('next')}>Next</button>
       <h1>Footer</h1>
+      
     </div>
   )
 }
