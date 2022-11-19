@@ -3,6 +3,10 @@ import { useState } from 'react';
 class FormGenerator {
   startOn: string = '';
   sections: any;
+
+  // Events
+  onStep: any;
+  onSubmit: any;
   // onSubmit, onStep event listeners in the future.
   
   generate(): any {
