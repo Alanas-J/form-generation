@@ -1,6 +1,6 @@
 import './App.css';
 import BasicInput from './components/BasicInput';
-import FloatingInput from './components/FloatingInput';
+import { isMandatory } from './components/validations';
 import FormGenerator from './form-generation/FormGenerator';
 
 const formGen = new FormGenerator();
@@ -10,10 +10,13 @@ formGen.sections = {
     next: 'additionalDetails',
     elements: [
       { 
-        name: 'test_field',
+        name: 'name',
         group: 'details',  
         component: BasicInput,
-        additionalProps: { label: 'Test Field', placeholder: 'Text goes here...' }
+        additionalProps: { label: 'Name', placeholder: 'Enter your name...' },
+        validations: [
+          isMandatory('Please provide your name.')
+        ]
       },
       { 
         name: 'test_field2', 
