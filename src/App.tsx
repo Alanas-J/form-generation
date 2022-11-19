@@ -10,10 +10,10 @@ formGen.sections = {
     next: 'additionalDetails',
     elements: [
       { 
-        name: 'test_field', 
+        name: 'test_field',
+        group: 'details',  
         label: 'Test Field',
         placeholder: 'Text goes here...', 
-        group: 'details', 
         component: BasicInput 
       },
       { 
@@ -24,9 +24,9 @@ formGen.sections = {
       },
       { 
         name: 'test_field3', 
+        group: 'details',
         label: 'Test Field 3',
         placeholder: 'Text goes sdfgsdfgsdfg...', 
-        group: 'details', 
         component: BasicInput
       },
     ]
