@@ -39,6 +39,12 @@ formGen.sections = {
   }  
 };
 formGen.startOn = 'userInfo';
+
+formGen.onStep = (formState: any) => {
+  console.log(`Stepped to ${formState._section}`, formState);
+}
+
+
 const { FormComponent, formAction } = formGen.generate();
 
 function App() {

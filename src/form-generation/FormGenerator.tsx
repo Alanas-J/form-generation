@@ -67,11 +67,11 @@ class FormGenerator {
       switch(action) {
         case 'next':
           if (_setFormState && this.sections[_formState._section].next) _setFormState({ ..._formState, _section: this.sections[_formState._section].next});
-          console.log('next');
+          if(this.onStep) this.onStep(_formState);
           break;
         case 'previous':
           if (_setFormState && this.sections[_formState._section].previous) _setFormState({ ..._formState, _section: this.sections[_formState._section].previous});
-          console.log('back');
+          if(this.onStep) this.onStep(_formState);
           break;
         case 'submit':
           console.log('submit');
