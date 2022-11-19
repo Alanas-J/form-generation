@@ -66,11 +66,14 @@ class FormGenerator {
     const formAction = (action: string) => {
       switch(action) {
         case 'next':
-          if (_setFormState && this.sections[_formState._section].next){
-            const formState = { ..._formState, _section: this.sections[_formState._section].next};
+          if (_setFormState && this.sections[_formState._section].next) {
+            if(validateAllFields(this.sections[_formState._section].elements, _formState, _setFormState)) {
+
+              const formState = { ..._formState, _section: this.sections[_formState._section].next};
              _setFormState(formState)
 
              if(this.onStep) this.onStep(formState);
+            }
           }
           break;
         case 'previous':
@@ -92,3 +95,41 @@ class FormGenerator {
   }
 }
 export default FormGenerator;
+
+function validateAllFields(elements: any, formState: any, setFormState: any): boolean {
+  let error: boolean = false;
+
+  elements.forEach((element: any) => {
+    if(element.validations){
+      for(const validate of element.validations){
+        let result: any;
+        let value: any;
+
+        if(element.group){
+          if (formState[element.group] === undefined) formState[element.group] = {};
+          if (formState[element.group][element.name] === undefined) formState[element.group][element.name] = {};
+
+          value = formState[element.group][element.name]?.value;
+          result = validate(value);
+
+          formState[element.group][element.name].validation = result;
+        } else {
+          if (formState[element.name] === undefined) formState[element.name] = {};
+
+          value = formState[element.name]?.value;
+          result = validate(value);
+
+          formState[element.name].validation = result;
+        }
+
+        if(result.error === true){
+          error = error || result.error
+          break;
+        }
+      }
+    }
+  })
+
+  if(error) setFormState({...formState});
+  return !error;
+}
