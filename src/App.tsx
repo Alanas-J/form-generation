@@ -50,6 +50,7 @@ formGen.sections = {
       { 
         name: 'extra', 
         group: 'details',
+        showCondition: (formState: any) => (formState.details.showExtraField.value === 'Yes'),
         component: BasicInput,
         additionalProps: { label: 'Extra Field', placeholder: 'Text goes here...' }
       },

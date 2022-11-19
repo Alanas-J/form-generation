@@ -19,6 +19,8 @@ class FormGenerator {
         <>
           { 
             this.sections[formState._section].elements.map((element: any) => {
+              if(element.showCondition && !element.showCondition(formState)) return;
+
               const Component = element.component;
 
               let {value, validation} = getFieldState(element, formState);
