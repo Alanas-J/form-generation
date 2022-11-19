@@ -52,7 +52,10 @@ formGen.sections = {
         group: 'details',
         showCondition: (formState: any) => (formState.details.showExtraField.value === 'Yes'),
         component: BasicInput,
-        additionalProps: { label: 'Extra Field', placeholder: 'Text goes here...' }
+        additionalProps: { label: 'Extra Field', placeholder: 'Text goes here...' },
+        validations: [
+          isMandatory('This extra field is mandatory.')
+        ]
       },
     ]
   },

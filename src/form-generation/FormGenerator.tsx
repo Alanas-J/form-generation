@@ -169,7 +169,9 @@ function validateField( element: any, formState: any) {
 function validateFields(elements: any, formState: any): boolean {
   let error: boolean = false;
 
-  for(const element of elements){
+  for(const element of elements) {
+    if(element.showCondition && !element.showCondition(formState)) continue;
+
     const elementError = !validateField(element, formState)
     error =  error || elementError;
   }
