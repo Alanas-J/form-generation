@@ -1,6 +1,6 @@
-
 import './App.css';
 import BasicInput from './components/BasicInput';
+import FloatingInput from './components/FloatingInput';
 import FormGenerator from './form-generation/FormGenerator';
 
 const formGen = new FormGenerator();
@@ -9,9 +9,26 @@ formGen.sections = {
   userInfo: {
     next: 'additionalDetails',
     elements: [
-      { name: 'test_field', group: 'details', component: BasicInput },
-      { name: 'test_field2', component: BasicInput },
-      { name: 'test_field4', group: 'details', component: BasicInput },
+      { 
+        name: 'test_field', 
+        label: 'Test Field',
+        placeholder: 'Text goes here...', 
+        group: 'details', 
+        component: BasicInput 
+      },
+      { 
+        name: 'test_field2', 
+        label: 'Test Field 2',
+        placeholder: 'Text goes here...', 
+        component: BasicInput
+      },
+      { 
+        name: 'test_field3', 
+        label: 'Test Field 3',
+        placeholder: 'Text goes sdfgsdfgsdfg...', 
+        group: 'details', 
+        component: BasicInput
+      },
     ]
   },
   additionalDetails: {

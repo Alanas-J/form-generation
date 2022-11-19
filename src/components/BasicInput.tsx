@@ -1,6 +1,9 @@
-function BasicInput({ name, value, setValue }: any) {
+function BasicInput({ name, label, placeholder, value, setValue }: any) {
     return (
-      <input type="text" name={name} placeholder={name} value={value} onChange={e => setValue(e.target.value)} />
+      <div className="mb-3">
+        <label className="form-label">{label}</label>
+        <input type="text" className="form-control" name={name} placeholder={placeholder} value={value} onChange={e => setValue(e.target.value)} />
+      </div>
     )
   }
   

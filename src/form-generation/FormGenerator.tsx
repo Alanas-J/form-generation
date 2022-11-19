@@ -34,9 +34,8 @@ class FormGenerator {
 
               const setValue = (value: any) => {
                 setField(element.name, value, element.group);
-                console.log('setfield triggered')
               }
-              let value = null;
+              let value = '';
               if(formState[element.group]){
                 value = formState[element.group][element.name]?.value ?? '';
               } else {
@@ -45,6 +44,11 @@ class FormGenerator {
               
               const props = {
                 name: element.name,
+                group: element.group,
+                label: element.label,
+                text: element.text,
+                placeholder: element.placeholder,
+                
                 value,
                 setValue
               }
