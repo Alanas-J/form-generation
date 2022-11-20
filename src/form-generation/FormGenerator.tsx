@@ -4,7 +4,9 @@ class FormGenerator {
   startOn: string = '';
   sections: any;
   onStep: any;
+  onFieldChange: any;
   onSubmit: any; // TODO: Not plugged in yet.
+  onValidationFailure: any; // TODO: Not plugged in yet.
   
   generate(): any {
     let _formState: any = null;
@@ -24,7 +26,7 @@ class FormGenerator {
               const Component = element.component;
 
               let {value, validation} = getFieldState(element, formState);
-              const setValue = (value: any) => setField(element, value, formState, setFormState);
+              const setValue = (value: any) => setField(element, value, formState, setFormState, this.onFieldChange);
               const validate = () => {
                 validateField(element, formState);
                 setFormState({...formState});
@@ -113,7 +115,7 @@ function getFieldState(element: any, formState: any) {
   return {value, validation};
 }
 
-function setField( element: any, value: any, formState: any, setFormState: any) {
+function setField( element: any, value: any, formState: any, setFormState: any, onFieldChange: any) {
   const {group, name} = element;
   
   if(group){
@@ -128,7 +130,7 @@ function setField( element: any, value: any, formState: any, setFormState: any) 
     formState[name].value = value;
     if(formState[name]?.validation?.error) validateField(element, formState);
   }
-  console.log(`Field ${group || ''}.${name} set to ${value}`, formState);
+  if(onFieldChange) onFieldChange(`Field ${group || ''}.${name} set to ${value}`, formState);
   setFormState({...formState});
 };
 
