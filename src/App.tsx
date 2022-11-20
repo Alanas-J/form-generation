@@ -2,6 +2,7 @@ import './App.css';
 import BasicFieldDisplay from './components/BasicFieldDisplay';
 import BasicInput from './components/BasicInput';
 import Radio from './components/Radio';
+import RadioModal from './components/RadioModal';
 import SectionTitle from './components/SectionTitle';
 import StateDisplay from './components/StateDisplay';
 import { isMandatory, checkRegex } from './components/validations';
@@ -24,7 +25,7 @@ formGen.sections = {
         component: BasicInput,
         additionalProps: { label: 'Name', placeholder: 'Enter your name...' },
         validations: [
-          isMandatory('Please provide your name.')
+          //isMandatory('Please provide your name.')
         ]
       },
       { 
@@ -33,8 +34,8 @@ formGen.sections = {
         component: BasicInput,
         additionalProps: { label: 'Email', placeholder: 'Enter your email...' },
         validations: [
-          isMandatory('Please provide your email.'),
-          checkRegex('Please provide a valid email.', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+          // isMandatory('Please provide your email.'),
+          // checkRegex('Please provide a valid email.', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         ]
       },
       { 
@@ -73,6 +74,16 @@ formGen.sections = {
         component: BasicInput,
         additionalProps: { label: 'Test Field', placeholder: 'Text goes here...' } 
       },
+      { 
+        name: 'modal', 
+        group: 'details',
+        defaultValue: 'Extra Option',
+        component: RadioModal,
+        additionalProps: {
+          label: 'This is a modal example, here are some options:',
+          options: ['Yes', 'No','Extra Option']
+        }
+      },
     ]
   },
   summary: {
@@ -107,7 +118,6 @@ function App() {
       <FormComponent/>
       <button onClick={() => formAction('previous')}>Back</button>
       <button onClick={() => formAction('next')}>Next</button>
-      
     </div>
   )
 }

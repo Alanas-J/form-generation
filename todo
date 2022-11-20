@@ -1,14 +1,11 @@
 -- Future Tasks
+TODO: caching support + feeding initial state instead (session restore)?
 
-TODO: figure out a validation system, how to put assertions and messages
+TODO: conditional navigation
 
-TODO: lax up component state?
+TODO: typesafety and interfaces
 
-TODO: caching support
-
-TODO: typesafety and intefaces
-
-TODO: conditional field + label support
+TODO: standardisation of null '' and undefined values, picking what is used
 
 
 ---- Finished
@@ -18,3 +15,7 @@ TODO: form events the rest of the app could hook onto (onStateUpdate, onFormStep
 TODO: pagination (done) 
 
 TODO: field groups, maybe just group by page? (done)
+
+TODO: figure out a validation system, how to put assertions and messages (done)
+
+TODO: conditional field support (done)
