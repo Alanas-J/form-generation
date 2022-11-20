@@ -1,4 +1,3 @@
-import './App.css';
 import {FormComponent, formAction} from './formConfiguration';
 
 function App() {
