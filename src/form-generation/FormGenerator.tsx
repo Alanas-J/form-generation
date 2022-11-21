@@ -20,29 +20,7 @@ class FormGenerator {
       return (
         <>
           { 
-            this.sections[formState._section].elements.map((element: any) => {
-              if(element.showCondition && !element.showCondition(formState)) return;
-
-              const Component = element.component;
-
-              let {value, validation} = getFieldState(element, formState);
-              const setValue = (value: any) => setField(element, value, formState, setFormState, this.onFieldChange);
-              const validate = () => {
-                validateField(element, formState);
-                setFormState({...formState});
-              }
-              
-              const props = {
-                ...element,
-                value,
-                setValue,
-                formState,
-                setFormState,
-                validation,
-                validate
-              }
-              return (<Component key={element.name} {...props}/>);
-            })
+            this.sections[formState._section].elements.map((element: any) => renderElement(element, formState, setFormState, this.onFieldChange))
           }
         </>
       );
@@ -81,6 +59,34 @@ class FormGenerator {
   }
 }
 export default FormGenerator;
+
+function renderElement(element: any, formState: any, setFormState: any, onFieldChange: any) {
+  if(element.showCondition && !element.showCondition(formState)) return;
+
+  const Component = element.component;
+
+  let {value, validation} = getFieldState(element, formState);
+  const setValue = (value: any) => setField(element, value, formState, setFormState, onFieldChange);
+  const validate = () => {
+    validateField(element, formState);
+    setFormState({...formState});
+  }
+  
+  const props = {
+    ...element,
+    value,
+    setValue,
+    formState,
+    setFormState,
+    validation,
+    validate
+  }
+  return (
+    <Component key={element.name} {...props}>
+      {element.elements && element.elements.map((childElement: any) => renderElement(childElement, formState, setFormState, onFieldChange))}
+    </Component>
+  );
+}
 
 function getFieldState(element: any, formState: any) {
   let value;

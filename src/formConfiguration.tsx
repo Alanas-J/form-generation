@@ -4,6 +4,7 @@ import Radio from './components/Radio';
 import RadioModal from './components/RadioModal';
 import SectionTitle from './components/SectionTitle';
 import StateDisplay from './components/StateDisplay';
+import FieldRow from './components/containers/FieldRow';
 import { isMandatory, checkRegex } from './components/validations';
 import FormGenerator from './form-generation/FormGenerator';
 
@@ -72,6 +73,22 @@ formGen.sections = {
         name: 'test_field4',
         component: BasicInput,
         additionalProps: { label: 'Test Field', placeholder: 'Text goes here...' } 
+      },
+      {
+        name: 'element_container',
+        component: FieldRow, // To be plugged in
+        elements: [
+          { 
+            name: 'row_field1',
+            component: BasicInput,
+            additionalProps: { label: 'Row Field 1', placeholder: 'Recursive nesting :o' } 
+          },
+          { 
+            name: 'row_field2',
+            component: BasicInput,
+            additionalProps: { label: 'Row Field 2', placeholder: 'Text goes here...' } 
+          },
+        ]
       },
       { 
         name: 'modal', 
