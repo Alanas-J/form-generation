@@ -1,8 +1,8 @@
 
 // Returns a isMandatory function with the defined errorMessage.
 const isMandatory = (errorMessage: string) => {
-    return (value: string | undefined) => {
-        if(value === '' || value === undefined) {
+    return (value: string | FileList | undefined) => {
+        if(value === '' || value === undefined || value.length === 0 ) {
             return { 
                 error: true, 
                 message: errorMessage

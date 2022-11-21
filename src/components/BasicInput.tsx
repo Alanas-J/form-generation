@@ -1,5 +1,6 @@
 function BasicInput({ name, additionalProps, value, setValue, validation, validate }: any) {
   const inputClasses = `form-control ${validation.error && 'is-invalid'}`;
+  value = value === undefined ? '' : value;
 
   return (
     <div className="mb-3 mx-3">

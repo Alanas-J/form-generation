@@ -113,8 +113,6 @@ function getFieldState(element: any, formState: any) {
         formState[name] = {};
         formState[name].value = element.defaultValue;
       }
-    } else {
-      value = '';
     }
   }
 
@@ -180,7 +178,9 @@ function validateFields(elements: any, formState: any): boolean {
   for(const element of elements) {
     if(element.showCondition && !element.showCondition(formState)) continue;
 
-    const elementError = !validateField(element, formState)
+    let elementError = !validateField(element, formState)
+    if(element.elements) elementError = !validateFields(element.elements, formState) || elementError;
+
     error =  error || elementError;
   }
   return !error;

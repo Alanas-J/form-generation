@@ -7,6 +7,7 @@ import StateDisplay from './components/StateDisplay';
 import FieldRow from './components/containers/FieldRow';
 import { isMandatory, checkRegex } from './components/validations';
 import FormGenerator from './form-generation/FormGenerator';
+import FileInput from './components/FileInput';
 
 const formGen = new FormGenerator();
 
@@ -62,7 +63,7 @@ formGen.sections = {
   },
   additionalDetails: {
     previous: 'userInfo',
-    next: 'summary',
+    next: 'fileUpload',
     elements: [
       { 
         name: 'title',
@@ -76,7 +77,7 @@ formGen.sections = {
       },
       {
         name: 'element_container',
-        component: FieldRow, // To be plugged in
+        component: FieldRow,
         elements: [
           { 
             name: 'row_field1',
@@ -102,6 +103,48 @@ formGen.sections = {
       },
     ]
   },
+  fileUpload: {
+    previous: 'additionalDetails',
+    next: 'summary',
+    elements: [
+      { 
+        name: 'title',
+        text: 'File Uploading Example',
+        component: SectionTitle,
+      },
+      {
+        name: 'element_container',
+        component: FieldRow,
+        elements: [
+          { 
+            name: 'file_upload1',
+            group: 'file_uploads',  
+            component: FileInput,
+            additionalProps: { label: 'Upload your file here' },
+            validations: [
+              isMandatory('You need to drop in a file here.')
+            ]
+          },
+          { 
+            name: 'file_upload2',
+            group: 'file_uploads',  
+            component: FileInput,
+            additionalProps: { label: 'and here... (optional)' },
+          },
+        ]
+      },
+      { 
+        name: 'modal', 
+        group: 'details',
+        defaultValue: 'Extra Option',
+        component: RadioModal,
+        additionalProps: {
+          label: 'This is a modal example, here are some options:',
+          options: ['Yes', 'No','Extra Option']
+        }
+      },
+    ]
+  },
   summary: {
     previous: 'additionalDetails',
     elements: [
@@ -110,10 +153,6 @@ formGen.sections = {
         text: 'Summary',
         component: SectionTitle,
       },
-      { name: 'name', group: 'details', component: BasicFieldDisplay },
-      { name: 'email', group: 'details', component: BasicFieldDisplay },
-      { name: 'extra', group: 'details', component: BasicFieldDisplay },
-      { name: 'test_field4', component: BasicFieldDisplay },
       { name: 'state_display', component: StateDisplay },
     ]
   }  
