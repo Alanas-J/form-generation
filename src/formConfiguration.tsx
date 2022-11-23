@@ -146,7 +146,7 @@ formGen.sections = {
     ]
   },
   summary: {
-    previous: 'additionalDetails',
+    previous: 'fileUpload',
     elements: [
       { 
         name: 'title',
