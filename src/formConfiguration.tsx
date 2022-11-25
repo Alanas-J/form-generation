@@ -16,45 +16,41 @@ formGen.sections = {
     next: 'additionalDetails',
     elements: [
       { 
-        name: 'title',
-        text: 'Details',
         component: SectionTitle,
+        componentProps: { text: 'Details' },
       },
       { 
-        name: 'name',
-        group: 'details',  
+        field: 'details.name',
         component: BasicInput,
-        additionalProps: { label: 'Name', placeholder: 'Enter your name...' },
+        componentProps: { label: 'Name', placeholder: 'Enter your name...', name: 'name' },
         validations: [
           isMandatory('Please provide your name.')
         ]
       },
       { 
-        name: 'email',
-        group: 'details', 
+        field: 'details.email',
         component: BasicInput,
-        additionalProps: { label: 'Email', placeholder: 'Enter your email...' },
+        componentProps: { label: 'Email', placeholder: 'Enter your email...', name: 'email' },
         validations: [
           isMandatory('Please provide your email.'),
           checkRegex('Please provide a valid email.', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         ]
       },
       { 
-        name: 'showExtraField', 
+        field: 'details.showExtraField',
         group: 'details',
         defaultValue: 'No',
         component: Radio,
-        additionalProps: {
+        componentProps: {
           label: 'Would you like to show the extra field?',
           options: ['Yes', 'No']
         }
       },
       { 
-        name: 'extra', 
-        group: 'details',
+        field: 'details.extra',
         showCondition: (formState: any) => (formState.details.showExtraField.value === 'Yes'),
         component: BasicInput,
-        additionalProps: { label: 'Extra Field', placeholder: 'Text goes here...' },
+        componentProps: { label: 'Extra Field', placeholder: 'Text goes here...' },
         validations: [
           isMandatory('This extra field is mandatory.')
         ]
@@ -66,39 +62,37 @@ formGen.sections = {
     next: 'fileUpload',
     elements: [
       { 
-        name: 'title',
-        text: 'Additional Details',
         component: SectionTitle,
+        componentProps: { text: 'Additional Details' }
       },
       { 
-        name: 'test_field4',
+        field: 'additional_details.nested_once_more.test_field4',
         component: BasicInput,
-        additionalProps: { label: 'Test Field', placeholder: 'Text goes here...' } 
+        componentProps: { label: 'Test Field', placeholder: 'Text goes here...' } 
       },
       {
         name: 'element_container',
         component: FieldRow,
         elements: [
           { 
-            name: 'row_field1',
+            field: 'additional.nestedoncemore.row_field1',
             component: BasicInput,
-            additionalProps: { label: 'Row Field 1', placeholder: 'Recursive nesting :o' } 
+            componentProps: { label: 'Row Field 1', placeholder: 'Text goes here...' } 
           },
           { 
-            name: 'row_field2',
+            field: 'details.row_field2',
             component: BasicInput,
-            additionalProps: { label: 'Row Field 2', placeholder: 'Text goes here...' } 
+            componentProps: { label: 'Row Field 2', placeholder: 'Text goes here...' } 
           },
         ]
       },
       { 
-        name: 'modal', 
-        group: 'details',
+        field: 'additional_details.modal',
         defaultValue: 'Extra Option',
         component: RadioModal,
-        additionalProps: {
+        componentProps: {
           label: 'This is a modal example, here are some options:',
-          options: ['Yes', 'No','Extra Option']
+          options: ['Yes', 'No', 'Extra Option']
         }
       },
     ]
@@ -108,52 +102,37 @@ formGen.sections = {
     next: 'summary',
     elements: [
       { 
-        name: 'title',
-        text: 'File Uploading Example',
         component: SectionTitle,
+        componentProps: { text: 'File Uploading Example' }
       },
       {
-        name: 'element_container',
         component: FieldRow,
         elements: [
           { 
-            name: 'file_upload1',
-            group: 'file_uploads',  
+            field: 'file_uploads.file_upload1',
             component: FileInput,
-            additionalProps: { label: 'Upload your file here' },
+            componentProps: { label: 'Upload your file here' },
             validations: [
               isMandatory('You need to drop in a file here.')
             ]
           },
           { 
-            name: 'file_upload2',
-            group: 'file_uploads',  
+            field: 'file_uploads.file_upload2',
             component: FileInput,
-            additionalProps: { label: 'and here... (optional)' },
+            componentProps: { label: 'and here... (optional)' },
           },
         ]
-      },
-      { 
-        name: 'modal', 
-        group: 'details',
-        defaultValue: 'Extra Option',
-        component: RadioModal,
-        additionalProps: {
-          label: 'This is a modal example, here are some options:',
-          options: ['Yes', 'No','Extra Option']
-        }
-      },
+      }
     ]
   },
   summary: {
     previous: 'fileUpload',
     elements: [
       { 
-        name: 'title',
-        text: 'Summary',
         component: SectionTitle,
+        componentProps: { text: 'Summary' }
       },
-      { name: 'state_display', component: StateDisplay },
+      { component: StateDisplay },
     ]
   }  
 };

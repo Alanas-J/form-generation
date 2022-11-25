@@ -20,7 +20,7 @@ class FormGenerator {
       return (
         <>
           { 
-            this.sections[formState._section].elements.map((element: any) => renderElement(element, formState, setFormState, this.onFieldChange))
+            this.sections[formState._section].elements.map((element: any, index: number) => renderElement(''+index, element, formState, setFormState, this.onFieldChange))
           }
         </>
       );
@@ -43,9 +43,9 @@ class FormGenerator {
         case 'previous':
           if (_setFormState && this.sections[_formState._section].previous){
             const formState = { ..._formState, _section: this.sections[_formState._section].previous};
-             _setFormState(formState)
+            _setFormState(formState)
 
-             if(this.onStep) this.onStep(formState);
+            if(this.onStep) this.onStep(formState);
           }
           break;
         case 'submit':
@@ -60,16 +60,15 @@ class FormGenerator {
 }
 export default FormGenerator;
 
-function renderElement(element: any, formState: any, setFormState: any, onFieldChange: any) {
+function renderElement(index: string, element: any, formState: any, setFormState: any, onFieldChange: any) {
   if(element.showCondition && !element.showCondition(formState)) return;
-
   const Component = element.component;
 
   let {value, validation} = getFieldState(element, formState);
   const setValue = (value: any) => setField(element, value, formState, setFormState, onFieldChange);
   const validate = () => {
     validateField(element, formState);
-    setFormState({...formState});
+    setFormState(() => ({...formState}));
   }
   
   const props = {
@@ -81,9 +80,10 @@ function renderElement(element: any, formState: any, setFormState: any, onFieldC
     validation,
     validate
   }
+  const key = `${element.field}_${Component.name}_${index}`;
   return (
-    <Component key={element.name} {...props}>
-      {element.elements && element.elements.map((childElement: any) => renderElement(childElement, formState, setFormState, onFieldChange))}
+    <Component key={key} {...props}>
+      {element.elements && element.elements.map((childElement: any, childIndex: number) => renderElement(index+'.'+childIndex, childElement, formState, setFormState, onFieldChange))}
     </Component>
   );
 }
@@ -92,50 +92,48 @@ function getFieldState(element: any, formState: any) {
   let value;
   let validation;
 
-  if(formState[element.group]){ 
-    value = formState[element.group][element.name]?.value;
-    validation = formState[element.group][element.name]?.validation ?? {};
-  } else {
-    value = formState[element.name]?.value;
-    validation = formState[element.name]?.validation ?? {};
-  }
+  if(element.field){
+    const keys = element.field.split('.');
+    
+    let currentNode = formState;
+    for(const key of keys) {
 
-  if(value === undefined) {
-    if(element.defaultValue) {
-      const {group, name} = element; 
-      value = element.defaultValue;
-
-      if(element.group){
-        if (formState[group] === undefined) formState[group] = {};
-        formState[group][name] = {};
-        formState[element.group][element.name].value = element.defaultValue;
-      } else {
-        formState[name] = {};
-        formState[name].value = element.defaultValue;
+      if (currentNode[key] === undefined){
+        if(element.defaultValue) currentNode[key] = {};
+        else return {value, validation};
       }
+      currentNode = currentNode[key];
     }
-  }
+    if(!currentNode.value && element.defaultValue) currentNode.value = element.defaultValue;
 
+    value = currentNode?.value;
+    validation = currentNode?.validation;
+  }
+  else {
+    value = 'No field key provided'; // TODO: look into better way to handle
+  }
+  
   return {value, validation};
 }
 
 function setField( element: any, value: any, formState: any, setFormState: any, onFieldChange: any) {
-  const {group, name} = element;
-  
-  if(group){
-    if (formState[group] === undefined) formState[group] = {};
-    if (formState[group][name] === undefined) formState[group][name] = {};
+  if(element.field){
+    const keys = element.field.split('.');
     
-    formState[group][name].value = value;
-    if(formState[group][name]?.validation?.error) validateField(element, formState);
-  } else {
-    if (formState[name] === undefined) formState[name] = {};
+    let currentNode = formState;
+    for(const key of keys) {
+      if (currentNode[key] === undefined) currentNode[key] = {};
+      currentNode = currentNode[key];
+    }
+    currentNode.value = value;
+    if(currentNode?.validation?.error) validateField(element, formState);
 
-    formState[name].value = value;
-    if(formState[name]?.validation?.error) validateField(element, formState);
+    if(onFieldChange) onFieldChange(`${element.field} set to '${value}'`, formState);
+    setFormState(() => ({...formState}));
   }
-  if(onFieldChange) onFieldChange(`Field ${group || ''}.${name} set to ${value}`, formState);
-  setFormState({...formState});
+  else {
+    console.error(`Error No field key provided for where to store the value! Attempted to store '${value}'`); // TODO: Add in better error handling
+  }
 };
 
 function validateField( element: any, formState: any) {
@@ -146,21 +144,20 @@ function validateField( element: any, formState: any) {
       let result: any;
       let value: any;
 
-      if(element.group){
-        if (formState[element.group] === undefined) formState[element.group] = {};
-        if (formState[element.group][element.name] === undefined) formState[element.group][element.name] = {};
+      if(element.field) {
+        const keys = element.field.split('.');
 
-        value = formState[element.group][element.name]?.value;
+        let currentNode = formState;
+        for(const key of keys) {
+          if (currentNode[key] === undefined) currentNode[key] = {};
+          currentNode = currentNode[key];
+        }
+        value = currentNode?.value;
         result = validate(value);
-
-        formState[element.group][element.name].validation = result;
-      } else {
-        if (formState[element.name] === undefined) formState[element.name] = {};
-
-        value = formState[element.name]?.value;
-        result = validate(value);
-
-        formState[element.name].validation = result;
+        currentNode.validation = result;
+      } 
+      else {
+        console.error(`Error: No field key is provided to validate on!`); // TODO: Add in better error handling
       }
 
       if(result.error === true){

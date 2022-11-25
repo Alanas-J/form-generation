@@ -1,13 +1,12 @@
-function Radio({name, value, setValue, additionalProps}: any) {
-  
+function Radio({field, value, setValue, componentProps}: any) {  
     return (
         <div className="my-3">
-            <label className="form-label">{additionalProps.label}</label>
+            <label className="form-label">{componentProps.label}</label>
 
-            {additionalProps.options.map((option: string, index: number) => {
+            {componentProps.options.map((option: string, index: number) => {
                 return (
                     <div key={index} className="form-check">
-                        <input className="form-check-input" type="radio" name={name} value={option} checked={value === option} onChange={e => setValue(e.target.value)}/>
+                        <input className="form-check-input" type="radio" name={field} value={option} checked={value === option} onChange={e => setValue(e.target.value)}/>
                         <label className="form-check-label">
                             {option}
                         </label>
@@ -20,4 +19,3 @@ function Radio({name, value, setValue, additionalProps}: any) {
 }    
     
 export default Radio;
-  
