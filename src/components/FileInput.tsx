@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
-function FileInput({ name, additionalProps, value, setValue, validation, validate }: any){
+function FileInput({ componentProps, value, setValue, validation }: any){
+    validation = validation === undefined ? {} : validation;
     const inputClasses = `form-control ${validation.error && 'is-invalid'}`;
 
     const fileInput = useRef<any>({});
@@ -10,8 +11,8 @@ function FileInput({ name, additionalProps, value, setValue, validation, validat
 
     return (
         <div className="mb-3 mx-3">
-            <label className="form-label">{additionalProps.label}</label>
-            <input ref={fileInput} className={inputClasses} type="file" name={name} onChange={ e => {setValue(e.target.files); console.log(e.target)}}/>
+            <label className="form-label">{componentProps.label}</label>
+            <input ref={fileInput} className={inputClasses} type="file" onChange={ e => {setValue(e.target.files); console.log(e.target)}}/>
             <div className="invalid-feedback">
                 {validation.message || 'undefined'}
             </div>
@@ -19,4 +20,3 @@ function FileInput({ name, additionalProps, value, setValue, validation, validat
     );
 }
 export default FileInput;
-  

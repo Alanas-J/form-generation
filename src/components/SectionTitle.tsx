@@ -1,7 +1,7 @@
-function SectionTitle({ text }: any) {
+function SectionTitle({ componentProps }: any) {
     return (
       <h1>
-        {text}
+        {componentProps.text}
       </h1>
     )}
     
