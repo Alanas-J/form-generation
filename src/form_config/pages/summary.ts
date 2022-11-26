@@ -1,7 +1,8 @@
 import FormComponents from "../../components";
 
 const summary = {
-  previous: 'fileUpload',
+  previous: 'file_upload',
+  submit: true,
   
   elements: [
     { 

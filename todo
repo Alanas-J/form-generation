@@ -1,3 +1,8 @@
+// standarddise that onchange field event
+// add formsubmit and onvalidation fail events
+// add form action via components support.
+
+
 -- Future Tasks
 TODO: caching support + feeding initial state instead (session restore)?
 

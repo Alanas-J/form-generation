@@ -1,25 +1,25 @@
-import FormGenerator from "../form-generation/FormGenerator";
+import { FormConfiguration } from "../form-generation";
 import user_info from "./pages/user_info";
 import additional_details from "./pages/additional_details";
 import file_upload from "./pages/file_upload";
 import summary from "./pages/summary";
 
-const fg = new FormGenerator();
+const formConfig = new FormConfiguration();
 
-fg.sections = {
+formConfig.pages = {
   user_info,
   additional_details,
   file_upload,
   summary
 };
 
-fg.startOn = 'user_info';
-fg.onStep = (formState: any) => {
-  console.log(`Stepped to ${formState._section}`, formState);
+formConfig.startOn = 'user_info';
+formConfig.events.onStep = (formState: any) => {
+  console.log(`Stepped to ${formState.currentPage}`, formState);
 }
-fg.onFieldChange = (message: string, formState: any) => {
+formConfig.events.onFieldChange = (message: string, formState: any) => {
     console.log(message, formState)
 }
 
-const { FormComponent, formAction } = fg.generate();
-export { FormComponent, formAction};
+const { FormComponent, formAction } = formConfig.generate();
+export { FormComponent, formAction, formConfig};

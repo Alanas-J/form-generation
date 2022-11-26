@@ -1,64 +1,67 @@
 import { useState } from 'react';
 
-class FormGenerator {
+class FormConfiguration {
   startOn: string = '';
-  sections: any;
-  onStep: any;
-  onFieldChange: any;
-  onSubmit: any; // TODO: Not plugged in yet.
-  onValidationFailure: any; // TODO: Not plugged in yet.
+  pages: any;
+  events: any = {
+    onStep: null,
+    onFieldChange: null,
+    onSubmit: null, // TODO: Not plugged in yet.
+    onValidationFailure: null // TODO: Not plugged in yet.
+  }
   
   generate(): any {
     let _formState: any = null;
     let _setFormState: any = null;
 
     const FormComponent = () => {
-      const [formState, setFormState] = useState<any>({_section: this.startOn});
+      const [formState, setFormState] = useState<any>({currentPage: this.startOn});
       _setFormState = setFormState;
       _formState = formState;
 
       return (
         <>
           { 
-            this.sections[formState._section].elements.map((element: any, index: number) => renderElement(''+index, element, formState, setFormState, this.onFieldChange))
+            this.pages[formState.currentPage].elements.map((element: any, index: number) => renderElement(''+index, element, formState, setFormState, this.events?.onFieldChange))
           }
         </>
       );
     };
 
-    const formAction = (action: string) => {
-      let formState = _formState;
-      
-      switch(action) {
-        case 'next':
-          if (_setFormState && this.sections[_formState._section].next) {
-            if(validateFields(this.sections[_formState._section].elements, formState)) {
-              formState = { ..._formState, _section: this.sections[_formState._section].next};
-
-              if(this.onStep) this.onStep(formState);
-            }
-            _setFormState({...formState})
-          }
-          break;
-        case 'previous':
-          if (_setFormState && this.sections[_formState._section].previous){
-            const formState = { ..._formState, _section: this.sections[_formState._section].previous};
-            _setFormState(formState)
-
-            if(this.onStep) this.onStep(formState);
-          }
-          break;
-        case 'submit':
-          console.log('submit');
-          break;
-      }
-      return _formState;
-    }
+    const formAction = (action: string) => _formAction(action, this.pages, this.events, _formState, _setFormState)
 
     return { FormComponent, formAction }
   }
 }
-export default FormGenerator;
+
+function _formAction(action: string, pages: any, events: any, formState: any, setFormState: any) {
+  switch(action) {
+    case 'next':
+      if (setFormState && pages[formState.currentPage].next) {
+        if(validateFields(pages[formState.currentPage].elements, formState)) {
+          formState = { ...formState, currentPage: pages[formState.currentPage].next};
+
+          if(events.onStep) events.onStep(formState);
+        }
+        setFormState({...formState})
+      }
+      break;
+      case 'previous':
+        if (setFormState && pages[formState.currentPage].previous){
+        formState = { ...formState, currentPage: pages[formState.currentPage].previous};
+        setFormState(formState)
+
+        if(events.onStep) events.onStep(formState);
+      }
+      break;
+    case 'submit':
+      console.log('submit');
+      break;
+  }
+  return formState;
+}
+
+
 
 function renderElement(index: string, element: any, formState: any, setFormState: any, onFieldChange: any) {
   if(element.showCondition && !element.showCondition(formState)) return;
@@ -182,3 +185,5 @@ function validateFields(elements: any, formState: any): boolean {
   }
   return !error;
 }
+
+export {FormConfiguration};
