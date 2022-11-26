@@ -1,5 +1,5 @@
-import { validateFields } from "./fieldFunctions";
-import { FormEvents, FormPage, FormPages, FormState, SetFormState } from "./types";
+import { validateFields, getFormValues } from "./fieldFunctions";
+import { FormEvents, FormPage, FormPages, FormState, SetFormState, FormElement } from "./types";
 
 function dispatchFormAction(action: string, pages: FormPages, events: FormEvents, formState: FormState, setFormState: SetFormState) {
   switch(action) {
@@ -27,27 +27,11 @@ function dispatchFormAction(action: string, pages: FormPages, events: FormEvents
       break;
     case 'submit':
       const formValues = getFormValues(formState, pages);
-
-      if(events.onStep) events.onStep(formState.currentPage, formState);
+      if(events.onSubmit) events.onSubmit(formValues);
       console.log('submit');
       break;
   }
   return formState;
-}
-
-// move this to fieldFunctions later
-function getFormValues(formState: FormState, pages: FormPages){
-  const formValues = {};
-
-  for(const pageName of Object.keys(pages)){
-    for(const element of pages[pageName].elements){
-      
-    }
-  }
-}
-
-function addValuesFromElement(element: Element, formValues: object){
-  
 }
 
 export {dispatchFormAction};

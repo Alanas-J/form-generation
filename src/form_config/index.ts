@@ -21,5 +21,8 @@ formConfig.events.onStep = (currentPage: string, formState: FormState) => {
 formConfig.events.onFieldChange = (field: string, value: any, formState: FormState) => {
   console.log(`${field} set to '${value}'`, formState);
 }
+formConfig.events.onSubmit = (formValues) => {
+  console.log('Form Submitted', formValues);
+}
 
 export {formConfig};

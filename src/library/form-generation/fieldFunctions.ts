@@ -21,9 +21,6 @@ function getFieldState(element: FormElement, formState: FormState) {
     value = currentNode?.value;
     validation = currentNode?.validation;
   }
-  else {
-    value = 'No field key provided'; // TODO: look into better way to handle
-  }
   
   return {value, validation};
 }
@@ -94,9 +91,44 @@ function validateFields(elements: Array<FormElement>, formState: FormState): boo
   return !error;
 }
 
+// Creates an object of values from FormState that are from visible elements.
+function getFormValues(formState: FormState, pages: FormPages){
+  const formValues = {};
+
+  function addFormValueFromElement(element: FormElement, formState: FormState, formValues: object){
+    if((element.showCondition && element.showCondition(formState)) || !element.showCondition){
+      const {value} = getFieldState(element, formState);
+  
+      if(value && element.field){
+        const keys = element.field.split('.');
+        
+        let currentNode: {[key: string]: any} = formValues;
+        for(const key of keys){
+          if(currentNode[key] === undefined) currentNode[key] = {};
+          currentNode = currentNode[key];
+        }
+        currentNode.value = value;
+      }
+      if(element.elements){
+        for(const _element of element.elements){
+            addFormValueFromElement(_element, formState, formValues);
+        }
+      }
+    }
+  }
+  
+  for(const pageName of Object.keys(pages)){
+    for(const element of pages[pageName].elements){
+      addFormValueFromElement(element, formState, formValues);
+    }
+  }
+  return formValues;
+}
+
 export {
   getFieldState,
   setFieldValue,
   validateField,
-  validateFields
+  validateFields,
+  getFormValues
 }
