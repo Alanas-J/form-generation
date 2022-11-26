@@ -26,7 +26,7 @@ export type FormElementProps = {
     formAction: FormAction
 }
 export type FormElementValidation = {
-    error?: boolean,
+    error: boolean,
     message?: string,
 }
 

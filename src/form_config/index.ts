@@ -18,7 +18,7 @@ formConfig.startOn = 'user_info';
 formConfig.events.onStep = (currentPage: string, formState: FormState) => {
   console.log(`Stepped to '${currentPage}'`, formState);
 }
-formConfig.events.onFieldChange = (field: string, value: any, formState: any) => {
+formConfig.events.onFieldChange = (field: string, value: any, formState: FormState) => {
   console.log(`${field} set to '${value}'`, formState);
 }
 

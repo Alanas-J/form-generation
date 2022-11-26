@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FormAction, FormElement, FormElementProps, FormEvents, FormPages, FormState, SetFormState } from './types';
+import { FormAction, FormElement, FormElementProps, FormElementValidation, FormEvents, FormPages, FormState, SetFormState } from './types';
 
 class FormConfiguration {
   startOn: string = '';
@@ -147,7 +147,7 @@ function validateField( element: FormElement, formState: FormState) {
 
   if(element.validations) {
     for(const validate of element.validations) {
-      let result: any;
+      let result: FormElementValidation | undefined;
       let value: any;
 
       if(element.field) {
@@ -166,8 +166,8 @@ function validateField( element: FormElement, formState: FormState) {
         console.error(`Error: No field key is provided to validate on!`); // TODO: Add in better error handling
       }
 
-      if(result.error === true){
-        error = error || result.error;
+      if(result && result.error === true) {
+        error = true;
         break;
       }
     }
