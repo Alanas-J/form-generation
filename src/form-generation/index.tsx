@@ -14,6 +14,10 @@ class FormConfiguration {
     let _formState: any = null;
     let _setFormState: any = null;
 
+    const _formAction = (action: string) => {
+      if(_formState && _setFormState) return formAction(action, this.pages, this.events, _formState, _setFormState);
+    };
+
     const FormComponent = () => {
       const [formState, setFormState] = useState<any>({currentPage: this.startOn});
       _setFormState = setFormState;
@@ -22,22 +26,20 @@ class FormConfiguration {
       return (
         <>
           { 
-            this.pages[formState.currentPage].elements.map((element: any, index: number) => renderElement(''+index, element, formState, setFormState, this.events?.onFieldChange))
+            this.pages[formState.currentPage].elements.map((element: any, index: number) => renderElement(''+index, element, formState, setFormState, this.events, _formAction))
           }
         </>
       );
     };
 
-    const _formAction = (action: string) => formAction(action, this.pages, this.events, _formState, _setFormState)
-
-    return { FormComponent, formAction: formAction }
+    return { FormComponent, formAction: _formAction }
   }
 }
 
 function formAction(action: string, pages: any, events: any, formState: any, setFormState: any) {
   switch(action) {
     case 'next':
-      if (setFormState && pages[formState.currentPage].next) {
+      if (pages[formState.currentPage].next) {
         if(validateFields(pages[formState.currentPage].elements, formState)) {
           formState = { ...formState, currentPage: pages[formState.currentPage].next};
 
@@ -47,7 +49,7 @@ function formAction(action: string, pages: any, events: any, formState: any, set
       }
       break;
       case 'previous':
-        if (setFormState && pages[formState.currentPage].previous){
+        if (pages[formState.currentPage].previous){
         formState = { ...formState, currentPage: pages[formState.currentPage].previous};
         setFormState(formState)
 
@@ -63,12 +65,12 @@ function formAction(action: string, pages: any, events: any, formState: any, set
 
 
 
-function renderElement(index: string, element: any, formState: any, setFormState: any, onFieldChange: any) {
+function renderElement(index: string, element: any, formState: any, setFormState: any, events: any, formAction: any) {
   if(element.showCondition && !element.showCondition(formState)) return;
   const Component = element.component;
 
   let {value, validation} = getFieldState(element, formState);
-  const setValue = (value: any) => setField(element, value, formState, setFormState, onFieldChange);
+  const setValue = (value: any) => setField(element, value, formState, setFormState, events.onFieldChange);
   const validate = () => {
     validateField(element, formState);
     setFormState(() => ({...formState}));
@@ -81,12 +83,13 @@ function renderElement(index: string, element: any, formState: any, setFormState
     formState,
     setFormState,
     validation,
-    validate
+    validate,
+    formAction
   }
   const key = `${element.field}_${Component.name}_${index}`;
   return (
     <Component key={key} {...props}>
-      {element.elements && element.elements.map((childElement: any, childIndex: number) => renderElement(index+'.'+childIndex, childElement, formState, setFormState, onFieldChange))}
+      {element.elements && element.elements.map((childElement: any, childIndex: number) => renderElement(index+'.'+childIndex, childElement, formState, setFormState, events, formAction))}
     </Component>
   );
 }
