@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <FormComponent/>
       <button onClick={() => handleNavButtons('previous', setCurrentPage)} disabled={!formConfig.pages[currentPage].previous} >Back</button>
-      <button onClick={() => handleNavButtons('next', setCurrentPage)} disabled={!formConfig.pages[currentPage].next} >Next</button>
+      <button onClick={() => handleNavButtons(formConfig.pages[currentPage].submit ? 'submit' : 'next', setCurrentPage)} disabled={!formConfig.pages[currentPage].next && !formConfig.pages[currentPage].submit} >{formConfig.pages[currentPage].submit ? 'Submit' : 'Next'}</button>
     </div>
   )
 }

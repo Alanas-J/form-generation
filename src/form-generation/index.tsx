@@ -28,13 +28,13 @@ class FormConfiguration {
       );
     };
 
-    const formAction = (action: string) => _formAction(action, this.pages, this.events, _formState, _setFormState)
+    const _formAction = (action: string) => formAction(action, this.pages, this.events, _formState, _setFormState)
 
-    return { FormComponent, formAction }
+    return { FormComponent, formAction: formAction }
   }
 }
 
-function _formAction(action: string, pages: any, events: any, formState: any, setFormState: any) {
+function formAction(action: string, pages: any, events: any, formState: any, setFormState: any) {
   switch(action) {
     case 'next':
       if (setFormState && pages[formState.currentPage].next) {
