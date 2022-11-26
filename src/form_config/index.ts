@@ -3,6 +3,7 @@ import user_info from "./pages/user_info";
 import additional_details from "./pages/additional_details";
 import file_upload from "./pages/file_upload";
 import summary from "./pages/summary";
+import { FormState } from "../library/form-generation/types";
 
 const formConfig = new FormConfiguration();
 
@@ -14,11 +15,11 @@ formConfig.pages = {
 };
 
 formConfig.startOn = 'user_info';
-formConfig.events.onStep = (formState: any) => {
-  console.log(`Stepped to ${formState.currentPage}`, formState);
+formConfig.events.onStep = (currentPage: string, formState: FormState) => {
+  console.log(`Stepped to '${currentPage}'`, formState);
 }
-formConfig.events.onFieldChange = (message: string, formState: any) => {
-    console.log(message, formState)
+formConfig.events.onFieldChange = (field: string, value: any, formState: any) => {
+  console.log(`${field} set to '${value}'`, formState);
 }
 
 const { FormComponent, formAction } = formConfig.generate();

@@ -1,32 +1,28 @@
 import { useState } from 'react';
+import { FormAction, FormElement, FormElementProps, FormEvents, FormPages, FormState, SetFormState } from './types';
 
 class FormConfiguration {
   startOn: string = '';
-  pages: any;
-  events: any = {
-    onStep: null,
-    onFieldChange: null,
-    onSubmit: null, // TODO: Not plugged in yet.
-    onValidationFailure: null // TODO: Not plugged in yet.
-  }
+  pages:  FormPages = {};
+  events: FormEvents = {};
   
-  generate(): any {
-    let _formState: any = null;
-    let _setFormState: any = null;
+  generate() {
+    let _formState: FormState | null = null;
+    let _setFormState: SetFormState | null = null;
 
     const _formAction = (action: string) => {
       if(_formState && _setFormState) return formAction(action, this.pages, this.events, _formState, _setFormState);
     };
 
     const FormComponent = () => {
-      const [formState, setFormState] = useState<any>({currentPage: this.startOn});
+      const [formState, setFormState] = useState<FormState>({currentPage: this.startOn});
       _setFormState = setFormState;
       _formState = formState;
 
       return (
         <>
           { 
-            this.pages[formState.currentPage].elements.map((element: any, index: number) => renderElement(''+index, element, formState, setFormState, this.events, _formAction))
+            this.pages[formState.currentPage].elements.map((element: FormElement, index: number) => renderElement(''+index, element, formState, setFormState, this.events, _formAction))
           }
         </>
       );
@@ -36,25 +32,29 @@ class FormConfiguration {
   }
 }
 
-function formAction(action: string, pages: any, events: any, formState: any, setFormState: any) {
+function formAction(action: string, pages: FormPages, events: FormEvents, formState: FormState, setFormState: SetFormState) {
   switch(action) {
     case 'next':
-      if (pages[formState.currentPage].next) {
-        if(validateFields(pages[formState.currentPage].elements, formState)) {
-          formState = { ...formState, currentPage: pages[formState.currentPage].next};
+      const nextPage: string | undefined = pages[formState.currentPage]?.next;  
 
-          if(events.onStep) events.onStep(formState);
+      if (nextPage) {
+        if(validateFields(pages[formState.currentPage].elements, formState)) {
+          formState = { ...formState, currentPage: nextPage};
+
+          if(events.onStep) events.onStep(formState.currentPage, formState);
         }
         setFormState({...formState})
       }
-      break;
+        break;
       case 'previous':
-        if (pages[formState.currentPage].previous){
-        formState = { ...formState, currentPage: pages[formState.currentPage].previous};
-        setFormState(formState)
+        const previousPage: string | undefined = pages[formState.currentPage]?.previous;
 
-        if(events.onStep) events.onStep(formState);
-      }
+        if (previousPage) {
+          formState = { ...formState, currentPage: previousPage};
+          setFormState(formState);
+
+          if(events.onStep) events.onStep(formState.currentPage, formState);
+        }
       break;
     case 'submit':
       console.log('submit');
@@ -65,7 +65,7 @@ function formAction(action: string, pages: any, events: any, formState: any, set
 
 
 
-function renderElement(index: string, element: any, formState: any, setFormState: any, events: any, formAction: any) {
+function renderElement(index: string, element: FormElement, formState: FormState, setFormState: SetFormState, events: FormEvents, formAction: FormAction) {
   if(element.showCondition && !element.showCondition(formState)) return;
   const Component = element.component;
 
@@ -76,7 +76,7 @@ function renderElement(index: string, element: any, formState: any, setFormState
     setFormState(() => ({...formState}));
   }
   
-  const props = {
+  const props: FormElementProps = {
     ...element,
     value,
     setValue,
@@ -94,7 +94,7 @@ function renderElement(index: string, element: any, formState: any, setFormState
   );
 }
 
-function getFieldState(element: any, formState: any) {
+function getFieldState(element: FormElement, formState: FormState) {
   let value;
   let validation;
 
@@ -122,7 +122,7 @@ function getFieldState(element: any, formState: any) {
   return {value, validation};
 }
 
-function setField( element: any, value: any, formState: any, setFormState: any, onFieldChange: any) {
+function setField( element: FormElement, value: any, formState: FormState, setFormState: SetFormState, onFieldChange: any) {
   if(element.field){
     const keys = element.field.split('.');
     
@@ -134,7 +134,7 @@ function setField( element: any, value: any, formState: any, setFormState: any, 
     currentNode.value = value;
     if(currentNode?.validation?.error) validateField(element, formState);
 
-    if(onFieldChange) onFieldChange(`${element.field} set to '${value}'`, formState);
+    if(onFieldChange) onFieldChange(element.field, value, formState);
     setFormState(() => ({...formState}));
   }
   else {
@@ -142,7 +142,7 @@ function setField( element: any, value: any, formState: any, setFormState: any, 
   }
 };
 
-function validateField( element: any, formState: any) {
+function validateField( element: FormElement, formState: FormState) {
   let error: boolean = false;
 
   if(element.validations) {
@@ -175,7 +175,7 @@ function validateField( element: any, formState: any) {
   return !error;
 }
 
-function validateFields(elements: any, formState: any): boolean {
+function validateFields(elements: Array<FormElement>, formState: FormState): boolean {
   let error: boolean = false;
 
   for(const element of elements) {

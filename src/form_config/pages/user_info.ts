@@ -1,5 +1,6 @@
 import FormComponents from "../../components";
 import { isMandatory, checkRegex } from "../../components/validations";
+import { FormPage } from "../../library/form-generation/types";
 
 const user_info = {
   next: 'additional_details',
@@ -28,7 +29,6 @@ const user_info = {
     },
     { 
       field: 'details.showExtraField',
-      group: 'details',
       defaultValue: 'No',
       component: FormComponents.Radio,
       componentProps: {
