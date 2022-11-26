@@ -1,4 +1,4 @@
-import { FormConfiguration } from "../form-generation";
+import { FormConfiguration } from "../library/form-generation";
 import user_info from "./pages/user_info";
 import additional_details from "./pages/additional_details";
 import file_upload from "./pages/file_upload";
