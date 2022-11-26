@@ -1,4 +1,4 @@
-import {FormComponent, formAction} from './formConfiguration';
+import {FormComponent, formAction} from './form_config';
 
 function App() {
 
@@ -11,4 +11,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
