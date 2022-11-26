@@ -30,7 +30,7 @@ export type FormElementValidation = {
     message?: string,
 }
 
-export type FormAction = (action: string) => FormState | undefined
+export type FormAction = (action: string) => FormState | void
 
 export type FormPage = {
     next?: string,
@@ -46,7 +46,7 @@ export type FormPages = {
 export type FormEvents = {
     onStep?: (currentPage: string, formState: FormState) => any,
     onFieldChange?: (field: string, value: any, formState: FormState) => any,
-    onSubmit?: Function,
+    onSubmit?: (formValues: object) => any,
     onValidationFailure?: Function
 }
 

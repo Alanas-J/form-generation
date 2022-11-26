@@ -1,4 +1,4 @@
-import { FormConfiguration } from "../library/form-generation";
+import { FormConfiguration } from "../library/form-generation/FormGeneration";
 import user_info from "./pages/user_info";
 import additional_details from "./pages/additional_details";
 import file_upload from "./pages/file_upload";
@@ -22,5 +22,4 @@ formConfig.events.onFieldChange = (field: string, value: any, formState: FormSta
   console.log(`${field} set to '${value}'`, formState);
 }
 
-const { FormComponent, formAction } = formConfig.generate();
-export { FormComponent, formAction, formConfig};
+export {formConfig};

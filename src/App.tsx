@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import {FormComponent, formAction, formConfig} from './form_config';
+import {formConfig} from './form_config';
+const {FormComponent, formAction} = formConfig.generate();
 
 function App() {
   const [currentPage, setCurrentPage] = useState('user_info');
@@ -12,10 +13,10 @@ function App() {
     </div>
   )
 }
+export default App;
 
-function handleNavButtons(action: string, setCurrentPage: any) {
+function handleNavButtons(action: string, setCurrentPage:  React.Dispatch<React.SetStateAction<string>>) {
   const formState = formAction(action);
-  setCurrentPage(formState.currentPage);
+  if(formState) setCurrentPage(formState.currentPage);
 }
 
-export default App;

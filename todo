@@ -1,3 +1,10 @@
+// refator form generation into multiple modules
+- formConfig
+- formStateFunctions
+- formActions
+
+
+
 // standarddise that onchange field event
 // add formsubmit and onvalidation fail events
 // add form action via components support.
