@@ -1,4 +1,4 @@
-import { FormElement, FormElementValidation, FormEvents, FormState, SetFormState } from "./types";
+import { FormElement, FormElementValidation, FormEvents, FormState, FormPages, SetFormState } from "./types";
 
 function getFieldState(element: FormElement, formState: FormState) {
   let value;
@@ -92,7 +92,7 @@ function validateFields(elements: Array<FormElement>, formState: FormState): boo
 }
 
 // Creates an object of values from FormState that are from visible elements.
-function getFormValues(formState: FormState, pages: FormPages){
+function getSubmissionValues(formState: FormState, pages: FormPages){
   const formValues = {};
 
   function addFormValueFromElement(element: FormElement, formState: FormState, formValues: object){
@@ -130,5 +130,5 @@ export {
   setFieldValue,
   validateField,
   validateFields,
-  getFormValues
+  getSubmissionValues
 }

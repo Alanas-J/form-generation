@@ -6,31 +6,42 @@ import { FormAction, FormElement, FormElementProps, FormEvents, FormPages, FormS
 class FormConfiguration {
   startOn: string = '';
   pages:  FormPages = {};
-  events: FormEvents = {};
-    
+  events: FormEvents = {};    
+
   generate() {
-    let _formState: FormState | null = null;
-    let _setFormState: SetFormState | null = null;
+    const useStateRefs = {
+      formState: null,
+      setFormState: null
+    }
   
-    const _formAction = (action: string) => {
-      if(_formState && _setFormState) return dispatchFormAction(action, this.pages, this.events, _formState, _setFormState);
+    const formAction = (action: string) => {
+      const {formState, setFormState} = useStateRefs;
+      if(formState && setFormState) return dispatchFormAction(action, this, formState, setFormState);
+      else console.error('fail', useStateRefs)
     };
   
-    const FormComponent = () => {
-      const [formState, setFormState] = useState<FormState>({currentPage: this.startOn});
-      _setFormState = setFormState;
-      _formState = formState;
-  
-      return (
-        <>
-          { 
-            this.pages[formState.currentPage].elements.map((element: FormElement, index: number) => renderElement(''+index, element, formState, setFormState, this.events, _formAction))
-          }
-        </>
-      );
-    };
-    return { FormComponent, formAction: _formAction }
+    const FormComponent = createFormComponent(this, useStateRefs)
+    return {FormComponent, formAction}
   }
+}
+
+function createFormComponent(formConfig: FormConfiguration, useStateRefs: any) {
+  const FormComponent = () => {
+    const [formState, setFormState] = useState<FormState>({currentPage: formConfig.startOn});
+    useStateRefs.setFormState = setFormState;
+    useStateRefs.formState = formState;
+
+    const formAction = (action: string) => {
+      dispatchFormAction(action, formConfig, formState, setFormState)
+    };
+
+    return (
+      <>
+        {formConfig.pages[formState.currentPage].elements.map((element: FormElement, index: number) => renderElement(''+index, element, formState, setFormState, formConfig.events, formAction))}
+      </>
+    );
+  };
+  return FormComponent;
 }
 
 function renderElement(index: string, element: FormElement, formState: FormState, setFormState: SetFormState, events: FormEvents, formAction: FormAction) {
