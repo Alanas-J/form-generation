@@ -3,18 +3,15 @@ import { FormConfiguration } from "./FormGeneration";
 import { FormEvents, FormPage, FormPages, FormState, SetFormState, FormElement } from "./types";
 
 function dispatchFormAction(action: string, formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
+  
   switch(action) {
     case 'next':
-      handleSteppingNext(formConfig, formState, setFormState);
-      break;
+      return handleSteppingNext(formConfig, formState, setFormState);
     case 'previous':
-      handleSteppingBack(formConfig, formState, setFormState);
-      break;
+      return handleSteppingBack(formConfig, formState, setFormState);
     case 'submit':
-      handleSubmit(formConfig, formState);
-      break;
+      return handleSubmit(formConfig, formState);
   }
-  return formState;
 }
 
 function handleSteppingNext(formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
@@ -29,6 +26,7 @@ function handleSteppingNext(formConfig: FormConfiguration, formState: FormState,
     }
     setFormState({...formState})
   }
+  return formState;
 }
 
 function handleSteppingBack(formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
@@ -41,12 +39,14 @@ function handleSteppingBack(formConfig: FormConfiguration, formState: FormState,
 
     if(events.onStep) events.onStep(formState.currentPage, formState);
   }
+  return formState;
 }
 
 function handleSubmit(formConfig: FormConfiguration, formState: FormState){
   const formValues = getSubmissionValues(formState, formConfig.pages);
   if(formConfig.events.onSubmit) formConfig.events.onSubmit(formValues);
-  console.log('submit');
+  
+  return formState;
 }
 
 export {dispatchFormAction};

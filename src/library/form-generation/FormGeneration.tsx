@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, } from "react";
 import { getFieldState, setFieldValue, validateField } from "./fieldFunctions";
 import { dispatchFormAction } from "./formActions";
 import { FormAction, FormElement, FormElementProps, FormEvents, FormPages, FormState, SetFormState } from "./types";
@@ -6,7 +6,7 @@ import { FormAction, FormElement, FormElementProps, FormEvents, FormPages, FormS
 class FormConfiguration {
   startOn: string = '';
   pages:  FormPages = {};
-  events: FormEvents = {};    
+  events: FormEvents = {};  
 
   generate() {
     const useStateRefs = {
@@ -17,7 +17,7 @@ class FormConfiguration {
     const formAction = (action: string) => {
       const {formState, setFormState} = useStateRefs;
       if(formState && setFormState) return dispatchFormAction(action, this, formState, setFormState);
-      else console.error('fail', useStateRefs)
+      else console.error('external formaction called before init', useStateRefs);
     };
   
     const FormComponent = createFormComponent(this, useStateRefs)
