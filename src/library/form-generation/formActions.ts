@@ -11,6 +11,9 @@ function dispatchFormAction(action: string, formConfig: FormConfiguration, formS
       return handleSteppingBack(formConfig, formState, setFormState);
     case 'submit':
       return handleSubmit(formConfig, formState);
+    case 'test':
+      formState = { ...formState, currentPage: 'additional_details'};
+      setFormState(formState);
   }
 }
 
@@ -45,7 +48,7 @@ function handleSteppingBack(formConfig: FormConfiguration, formState: FormState,
 function handleSubmit(formConfig: FormConfiguration, formState: FormState){
   const formValues = getSubmissionValues(formState, formConfig.pages);
   if(formConfig.events.onSubmit) formConfig.events.onSubmit(formValues);
-  
+
   return formState;
 }
 

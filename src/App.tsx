@@ -2,6 +2,11 @@ import { useState } from 'react';
 import {formConfig} from './form_config';
 const {FormComponent, formAction} = formConfig.generate();
 
+formConfig.events.onSubmit = (formValues) => {
+  console.log('Form Submitted', formValues);
+  formAction('test');
+}
+
 function App() {
   const [currentPage, setCurrentPage] = useState('user_info');
 

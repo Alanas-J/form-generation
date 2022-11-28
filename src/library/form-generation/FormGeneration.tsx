@@ -17,7 +17,6 @@ class FormConfiguration {
     const formAction = (action: string) => {
       const {formState, setFormState} = useStateRefs;
       if(formState && setFormState) return dispatchFormAction(action, this, formState, setFormState);
-      else console.error('external formaction called before init', useStateRefs);
     };
   
     const FormComponent = createFormComponent(this, useStateRefs)

@@ -15,7 +15,7 @@ const user_info = {
       component: FormComponents.BasicInput,
       componentProps: { label: 'Name', placeholder: 'Enter your name...', name: 'name' },
       validations: [
-        isMandatory('Please provide your name.')
+        //isMandatory('Please provide your name.')
       ]
     },
     { 
@@ -23,8 +23,8 @@ const user_info = {
       component: FormComponents.BasicInput,
       componentProps: { label: 'Email', placeholder: 'Enter your email...', name: 'email' },
       validations: [
-        isMandatory('Please provide your email.'),
-        checkRegex('Please provide a valid email.', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+        //isMandatory('Please provide your email.'),
+        //checkRegex('Please provide a valid email.', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
       ]
     },
     { 
