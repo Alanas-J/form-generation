@@ -24,15 +24,11 @@ formConfig.events.onStep = (currentPage: string, formState: FormState) => {
 formConfig.events.onFieldChange = (field: string, value: any, formState: FormState) => {
   console.log(`${field} set to '${value}'`, formState);
 }
-formConfig.events.onSubmit = (formValues) => {
-  console.log('Form Submitted', formValues);
-}
 
 formConfig.events.onSubmit = (formValues, dispatchFormAction) => {
   console.log('Form Submitted', formValues);
 
-  dispatchFormAction({type: 'go-back'});
-
-  setTimeout(() => dispatchFormAction({type: 'go-back'}), 1000)
+  // Faking an API resolution
+  setTimeout(() => dispatchFormAction({type: 'set-form-state', payload: (fs: FormState) => ({...fs, _submissionState: 'complete'})}), 10000)
 }
 export default formConfig.generate();

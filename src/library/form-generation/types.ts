@@ -49,14 +49,15 @@ export type FormEvents = {
 }
 
 export type FormState = {
-    currentPage: string,
+    _currentPage: string,
+    _submissionState?: string 
     [key: string]: any;
 }
 export type SetFormState =  React.Dispatch<React.SetStateAction<FormState>>
 
 export type FormAction = {
     type: string,
-    options?: object
+    payload?: any
 }
 
 export type FormActionDispatch = (action: FormAction) => FormState | undefined;

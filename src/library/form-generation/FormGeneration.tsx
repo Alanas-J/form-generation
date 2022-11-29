@@ -18,12 +18,12 @@ class FormConfiguration {
 
 function generateFormComponent(formConfiguration: FormConfiguration) {
   const FormComponent = () => {
-    const [formState, setFormState] = useState<FormState>({currentPage: formConfiguration.startOn});
+    const [formState, setFormState] = useState<FormState>({_currentPage: formConfiguration.startOn});
 
     const dispatchFormAction = (action: FormAction) => processFormAction(action, formConfiguration, formState, setFormState);
 
     const RootComponent = formConfiguration.rootComponent;
-    const FormPageRender = formConfiguration.pages[formState.currentPage].elements
+    const FormPageRender = formConfiguration.pages[formState._currentPage].elements
       .map((element: FormElement, index: number) => renderElement(''+index, element, formState, setFormState, formConfiguration.events, dispatchFormAction))
     
     const props = {

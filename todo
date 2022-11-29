@@ -1,3 +1,7 @@
+Add typesafety to components, 
+review the whole code/ give it a cleanup / unintended behaviour guards
+
+===================================================================================================
 // refator form generation into multiple modules
 - formConfig
 - formStateFunctions

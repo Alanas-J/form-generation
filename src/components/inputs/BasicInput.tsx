@@ -1,4 +1,4 @@
-function BasicInput({ field, componentProps, value, setValue, validation, validate }: any) {
+function BasicInput({ componentProps, value, setValue, validation, validate }: any) {
   value = value === undefined ? '' : value;
   validation = validation === undefined ? {} : validation;
 
