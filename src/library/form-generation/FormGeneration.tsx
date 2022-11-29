@@ -1,50 +1,47 @@
 import { useState, } from "react";
 import { getFieldState, setFieldValue, validateField } from "./fieldFunctions";
-import { dispatchFormAction } from "./formActions";
-import { FormAction, FormElement, FormElementProps, FormEvents, FormPages, FormState, SetFormState } from "./types";
+import { processFormAction } from "./formActions";
+import { FormAction, FormActionDispatch, FormElement, FormElementProps, FormEvents, FormPages, FormState, SetFormState } from "./types";
 
 class FormConfiguration {
-  startOn: string = '';
+  // TODO: add a class constructor
+  rootComponent: ({}: any) => JSX.Element = () => (<>Error! A Root component must be provided</>); 
   pages:  FormPages = {};
+  startOn: string = '';
   events: FormEvents = {};  
 
-  generate() {
-    const useStateRefs = {
-      formState: null,
-      setFormState: null
-    }
-  
-    const formAction = (action: string) => {
-      const {formState, setFormState} = useStateRefs;
-      if(formState && setFormState) return dispatchFormAction(action, this, formState, setFormState);
-      else console.error('external formaction called before init', useStateRefs);
-    };
-  
-    const FormComponent = createFormComponent(this, useStateRefs)
-    return {FormComponent, formAction}
+  generate() {  
+    const FormComponent = generateFormComponent(this);
+    return FormComponent;
   }
 }
 
-function createFormComponent(formConfig: FormConfiguration, useStateRefs: any) {
+function generateFormComponent(formConfiguration: FormConfiguration) {
   const FormComponent = () => {
-    const [formState, setFormState] = useState<FormState>({currentPage: formConfig.startOn});
-    useStateRefs.setFormState = setFormState;
-    useStateRefs.formState = formState;
+    const [formState, setFormState] = useState<FormState>({_currentPage: formConfiguration.startOn});
 
-    const formAction = (action: string) => {
-      dispatchFormAction(action, formConfig, formState, setFormState)
-    };
+    const dispatchFormAction = (action: FormAction) => processFormAction(action, formConfiguration, formState, setFormState);
 
+    const RootComponent = formConfiguration.rootComponent;
+    const FormPageRender = formConfiguration.pages[formState._currentPage].elements
+      .map((element: FormElement, index: number) => renderElement(''+index, element, formState, setFormState, formConfiguration.events, dispatchFormAction))
+    
+    const props = {
+      FormPageRender,
+      dispatchFormAction,
+      formState,
+      setFormState,
+      formConfiguration
+    }
+    
     return (
-      <>
-        {formConfig.pages[formState.currentPage].elements.map((element: FormElement, index: number) => renderElement(''+index, element, formState, setFormState, formConfig.events, formAction))}
-      </>
-    );
+      <RootComponent {...props} />
+    )
   };
   return FormComponent;
 }
 
-function renderElement(index: string, element: FormElement, formState: FormState, setFormState: SetFormState, events: FormEvents, formAction: FormAction) {
+function renderElement(index: string, element: FormElement, formState: FormState, setFormState: SetFormState, events: FormEvents, dispatchFormAction: FormActionDispatch) {
   if(element.showCondition && !element.showCondition(formState)) return;
   const Component = element.component;
   
@@ -66,12 +63,12 @@ function renderElement(index: string, element: FormElement, formState: FormState
     setFormState,
     validation,
     validate,
-    formAction
+    dispatchFormAction
   }
   const key = `${element.field}_${Component.name}_${index}`;
   return (
     <Component key={key} {...props}>
-      {element.elements && element.elements.map((childElement: any, childIndex: number) => renderElement(index+'.'+childIndex, childElement, formState, setFormState, events, formAction))}
+      {element.elements && element.elements.map((childElement: any, childIndex: number) => renderElement(index+'.'+childIndex, childElement, formState, setFormState, events, dispatchFormAction))}
     </Component>
   );
 }

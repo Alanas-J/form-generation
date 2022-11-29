@@ -46,7 +46,7 @@ function RadioModal({field, value, setValue, componentProps, formState, setFormS
 
     return (
         <div className={'modal fade '+(!isHidden && 'show')} tabIndex={-1} role="dialog" style={modalStyle}>
-            <div className="modal-dialog" role="document">
+            <div className="modal-dialog modal-dialog-centered" role="document">
                 <div className="modal-content">
                 <div className="modal-header">
                     <h4 className="form-label">{componentProps.label}</h4>

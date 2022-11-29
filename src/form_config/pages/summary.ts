@@ -2,7 +2,7 @@ import FormComponents from "../../components";
 
 const summary = {
   previous: 'file_upload',
-  submit: true,
+  isSubmissionPage: true,
   
   elements: [
     { 

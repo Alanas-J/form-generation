@@ -23,19 +23,17 @@ export type FormElementProps = {
     setFormState: SetFormState,
     validation: FormElementValidation | undefined,
     validate: () => void,
-    formAction: FormAction
+    dispatchFormAction: FormActionDispatch
 }
 export type FormElementValidation = {
     error: boolean,
     message?: string,
 }
 
-export type FormAction = (action: string) => FormState | void
-
 export type FormPage = {
     next?: string,
     previous?: string,
-    submit?: boolean,
+    isSubmissionPage?: boolean,
     elements: Array<FormElement>
 }
 
@@ -46,12 +44,20 @@ export type FormPages = {
 export type FormEvents = {
     onStep?: (currentPage: string, formState: FormState) => any,
     onFieldChange?: (field: string, value: any, formState: FormState) => any,
-    onSubmit?: (formValues: object) => any,
+    onSubmit?: (formValues: object, dispatchFormAction: FormActionDispatch) => any,
     onValidationFailure?: Function
 }
 
 export type FormState = {
-    currentPage: string,
+    _currentPage: string,
+    _submissionState?: string 
     [key: string]: any;
 }
 export type SetFormState =  React.Dispatch<React.SetStateAction<FormState>>
+
+export type FormAction = {
+    type: string,
+    payload?: any
+}
+
+export type FormActionDispatch = (action: FormAction) => FormState | undefined;
