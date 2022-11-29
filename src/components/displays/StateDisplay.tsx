@@ -1,4 +1,6 @@
-function StateDisplay({ formState }: any) {
+import { FormElementProps } from "../../library/form-generation/types";
+
+function StateDisplay({ formState }: FormElementProps) {
     return (
       <div className="mb-3 p-3 shadow">
         Form State:
