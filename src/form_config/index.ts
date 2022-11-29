@@ -4,8 +4,11 @@ import additional_details from "./pages/additional_details";
 import file_upload from "./pages/file_upload";
 import summary from "./pages/summary";
 import { FormState } from "../library/form-generation/types";
+import FormComponents from "../components";
 
 const formConfig = new FormConfiguration();
+
+formConfig.rootComponent = FormComponents.RootComponent; 
 
 formConfig.pages = {
   user_info,
@@ -25,4 +28,11 @@ formConfig.events.onSubmit = (formValues) => {
   console.log('Form Submitted', formValues);
 }
 
-export {formConfig};
+formConfig.events.onSubmit = (formValues, dispatchFormAction) => {
+  console.log('Form Submitted', formValues);
+
+  dispatchFormAction({type: 'go-back'});
+
+  setTimeout(() => dispatchFormAction({type: 'go-back'}), 1000)
+}
+export default formConfig.generate();

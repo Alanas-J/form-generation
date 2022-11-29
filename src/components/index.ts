@@ -6,6 +6,7 @@ import BasicFieldDisplay from "./displays/BasicFieldDisplay";
 import SectionTitle from "./displays/SectionTitle";
 import StateDisplay from "./displays/StateDisplay";
 import FieldRow from "./containers/FieldRow";
+import RootComponent from "./RootComponent";
 
 const FormComponents = {
     BasicInput,
@@ -15,6 +16,7 @@ const FormComponents = {
     BasicFieldDisplay,
     SectionTitle,
     StateDisplay,
-    FieldRow
+    FieldRow,
+    RootComponent
 };
 export default FormComponents;

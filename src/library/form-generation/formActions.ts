@@ -1,19 +1,15 @@
 import { validateFields, getSubmissionValues } from "./fieldFunctions";
 import { FormConfiguration } from "./FormGeneration";
-import { FormEvents, FormPage, FormPages, FormState, SetFormState, FormElement } from "./types";
+import { FormEvents, FormPage, FormPages, FormState, SetFormState, FormElement, FormAction } from "./types";
 
-function dispatchFormAction(action: string, formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
-  
-  switch(action) {
+function processFormAction(action: FormAction, formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
+  switch(action.type) {
     case 'next':
       return handleSteppingNext(formConfig, formState, setFormState);
     case 'previous':
       return handleSteppingBack(formConfig, formState, setFormState);
     case 'submit':
-      return handleSubmit(formConfig, formState);
-    case 'test':
-      formState = { ...formState, currentPage: 'additional_details'};
-      setFormState(formState);
+      return handleSubmit(formConfig, formState, setFormState, action.options);
   }
 }
 
@@ -23,7 +19,7 @@ function handleSteppingNext(formConfig: FormConfiguration, formState: FormState,
 
   if (nextPage) {
     if(validateFields(pages[formState.currentPage].elements, formState)) {
-      formState = { ...formState, currentPage: nextPage};
+      formState.currentPage = nextPage;
   
       if(events.onStep) events.onStep(formState.currentPage, formState);
     }
@@ -37,19 +33,21 @@ function handleSteppingBack(formConfig: FormConfiguration, formState: FormState,
   const previousPage: string | undefined = pages[formState.currentPage]?.previous;
 
   if (previousPage) {
-    formState = { ...formState, currentPage: previousPage};
-    setFormState(formState);
+    formState.currentPage = previousPage;
+    setFormState({...formState});
 
     if(events.onStep) events.onStep(formState.currentPage, formState);
   }
   return formState;
 }
 
-function handleSubmit(formConfig: FormConfiguration, formState: FormState){
+function handleSubmit(formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState, options?: object) {
   const formValues = getSubmissionValues(formState, formConfig.pages);
-  if(formConfig.events.onSubmit) formConfig.events.onSubmit(formValues);
+  const dispatchFormAction = (action: FormAction) => processFormAction(action, formConfig, formState, setFormState);
+
+  if(formConfig.events.onSubmit) formConfig.events.onSubmit(formValues, dispatchFormAction);
 
   return formState;
 }
 
-export {dispatchFormAction};
+export {processFormAction};
