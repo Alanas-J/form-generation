@@ -1,7 +1,11 @@
-function SectionTitle({ componentProps }: any) {
+import { FormElementProps } from "../../library/form-generation/types"
+
+function SectionTitle({ componentProps }: FormElementProps) {
+  const text = componentProps?.text;
+
     return (
       <h1>
-        {componentProps.text}
+        {text}
       </h1>
     )}
     

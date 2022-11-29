@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { FormElementProps } from "../../library/form-generation/types";
 
-function RadioModal({field, value, setValue, componentProps, formState, setFormState}: any) {
+function RadioModal({field, value, setValue, componentProps, formState, setFormState}: FormElementProps) {
     let isHidden;
     
     if(field) {
@@ -49,10 +49,10 @@ function RadioModal({field, value, setValue, componentProps, formState, setFormS
             <div className="modal-dialog modal-dialog-centered" role="document">
                 <div className="modal-content">
                 <div className="modal-header">
-                    <h4 className="form-label">{componentProps.label}</h4>
+                    <h4 className="form-label">{componentProps?.label}</h4>
                 </div>
                 <div className="modal-body">
-                    {componentProps.options.map((option: string, index: number) => {
+                    {componentProps?.options.map((option: string, index: number) => {
                         return (
                             <div key={index} className="form-check">
                                 <input className="form-check-input" type="radio" value={option} checked={value === option} onChange={e => setValue(e.target.value)}/>

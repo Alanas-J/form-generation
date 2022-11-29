@@ -1,5 +1,6 @@
 import { FormActionDispatch } from "../library/form-generation/types";
 
+// TODO: Add props expectations
 function RootComponent({FormPageRender, formState, dispatchFormAction, formConfiguration}: any) {
     return (
         <div className="p-5">

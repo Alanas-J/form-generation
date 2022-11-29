@@ -2,7 +2,7 @@ export type FormElement = {
     component: (props: FormElementProps) => JSX.Element,
     field?: string,
     validations?: Array<Function> 
-    componentProps?: object,
+    componentProps?: {[key: string]: any},
     defaultValue?: any,
     showCondition?: (formState: any) => boolean,
     elements?: Array<FormElement>
@@ -11,7 +11,7 @@ export type FormElementProps = {
     component: (props: FormElementProps) => JSX.Element,
     field?: string,
     validations?: Array<Function> 
-    componentProps?: object,
+    componentProps?: {[key: string]: any;},
     defaultValue?: any,
     showCondition?: (formState: any) => boolean,
     elements?: Array<FormElement>,
