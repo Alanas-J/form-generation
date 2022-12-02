@@ -1,4 +1,4 @@
-import FormComponents from "../../components";
+import FormComponents from '../../components';
 
 const summary = {
   previous: 'file_upload',

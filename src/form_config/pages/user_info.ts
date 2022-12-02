@@ -1,6 +1,6 @@
-import FormComponents from "../../components";
-import { isMandatory, checkRegex } from "../../components/validations";
-import { FormPage } from "../../library/form-generation/types";
+import FormComponents from '../../components';
+import { isMandatory, checkRegex } from '../../components/validations';
+import { FormPage } from '../../library/form-generation/types';
 
 const user_info = {
   next: 'additional_details',
@@ -32,7 +32,7 @@ const user_info = {
       defaultValue: 'No',
       component: FormComponents.Radio,
       componentProps: {
-      label: 'Would you like to show the extra field?',
+        label: 'Would you like to show the extra field?',
         options: ['Yes', 'No']
       }
     },

@@ -1,4 +1,4 @@
-import { FormElement, FormElementValidation, FormEvents, FormState, FormPages, SetFormState } from "./types";
+import { FormElement, FormElementValidation, FormEvents, FormState, FormPages } from './types';
 
 function getFieldState(element: FormElement, formState: FormState) {
   let value;
@@ -42,10 +42,10 @@ function setFieldValue( element: FormElement, value: any, formState: FormState, 
   else {
     console.error(`Error No field key provided for where to store the value! Attempted to store '${value}'`); // TODO: Add in better error handling
   }
-};
+}
 
 function validateField( element: FormElement, formState: FormState) {
-  let error: boolean = false;
+  let error = false;
 
   if(element.validations) {
     for(const validate of element.validations) {
@@ -65,7 +65,7 @@ function validateField( element: FormElement, formState: FormState) {
         currentNode.validation = result;
       } 
       else {
-        console.error(`Error: No field key is provided to validate on!`); // TODO: Add in better error handling
+        console.error('Error: No field key is provided to validate on!'); // TODO: Add in better error handling
       }
 
       if(result && result.error === true) {
@@ -78,12 +78,12 @@ function validateField( element: FormElement, formState: FormState) {
 }
 
 function validateFields(elements: Array<FormElement>, formState: FormState): boolean {
-  let error: boolean = false;
+  let error = false;
 
   for(const element of elements) {
     if(element.showCondition && !element.showCondition(formState)) continue;
 
-    let elementError = !validateField(element, formState)
+    let elementError = !validateField(element, formState);
     if(element.elements) elementError = !validateFields(element.elements, formState) || elementError;
 
     error =  error || elementError;
@@ -111,7 +111,7 @@ function getSubmissionValues(formState: FormState, pages: FormPages){
       }
       if(element.elements){
         for(const _element of element.elements){
-            addFormValueFromElement(_element, formState, formValues);
+          addFormValueFromElement(_element, formState, formValues);
         }
       }
     }
@@ -131,4 +131,4 @@ export {
   validateField,
   validateFields,
   getSubmissionValues
-}
+};

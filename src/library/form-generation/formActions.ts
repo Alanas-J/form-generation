@@ -1,19 +1,19 @@
-import { validateFields, getSubmissionValues } from "./fieldFunctions";
-import { FormConfiguration } from "./FormGeneration";
-import { FormEvents, FormPage, FormPages, FormState, SetFormState, FormElement, FormAction } from "./types";
+import { validateFields, getSubmissionValues } from './fieldFunctions';
+import { FormConfiguration } from './FormGeneration';
+import { FormState, SetFormState, FormAction } from './types';
 
 function processFormAction(action: FormAction, formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
   switch(action.type) {
-    case 'next':
-      return handleSteppingNext(formConfig, formState, setFormState);
-    case 'previous':
-      return handleSteppingBack(formConfig, formState, setFormState);
-    case 'submit':
-      return handleSubmit(formConfig, formState, setFormState);
-    case 'set-form-state':
-      return handleSetFormState(action.payload, formState, setFormState);
-    case 'reset-form': 
-      return handleResetFormState(formConfig, formState, setFormState);
+  case 'next':
+    return handleSteppingNext(formConfig, formState, setFormState);
+  case 'previous':
+    return handleSteppingBack(formConfig, formState, setFormState);
+  case 'submit':
+    return handleSubmit(formConfig, formState, setFormState);
+  case 'set-form-state':
+    return handleSetFormState(action.payload, formState, setFormState);
+  case 'reset-form': 
+    return handleResetFormState(formConfig, formState, setFormState);
   }
 }
 
@@ -27,7 +27,7 @@ function handleSteppingNext(formConfig: FormConfiguration, formState: FormState,
   
       if(events.onStep) events.onStep(formState._currentPage, formState);
     }
-    setFormState({...formState})
+    setFormState({...formState});
   }
   return formState;
 }

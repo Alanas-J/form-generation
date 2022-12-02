@@ -1,5 +1,5 @@
-import FormComponents from "../../components";
-import { isMandatory } from "../../components/validations";
+import FormComponents from '../../components';
+import { isMandatory } from '../../components/validations';
 
 const file_upload = {
   previous: 'additional_details',

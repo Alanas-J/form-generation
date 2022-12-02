@@ -1,11 +1,12 @@
-import { FormElementProps } from "../../library/form-generation/types"
+import React from 'react';
+import { FormElementProps } from '../../library/form-generation/types';
 
 function FieldRow({children}: FormElementProps) {
-    return (
-        <div className="d-flex mb-3">
-            {children}
-        </div>
-    )
+  return (
+    <div className="d-flex mb-3">
+      {children}
+    </div>
+  );
 }
 
-export default FieldRow
+export default FieldRow;

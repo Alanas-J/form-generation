@@ -1,4 +1,5 @@
-import { FormElementProps } from "../../library/form-generation/types";
+import React from 'react';
+import { FormElementProps } from '../../library/form-generation/types';
 
 function BasicInput({ componentProps, value, setValue, validation, validate }: FormElementProps) {
   value = value === undefined ? '' : value;
@@ -14,6 +15,6 @@ function BasicInput({ componentProps, value, setValue, validation, validate }: F
         {validation?.message || 'undefined'}
       </div>
     </div>
-  )}
+  );}
   
-export default BasicInput
+export default BasicInput;
