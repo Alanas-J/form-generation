@@ -24,7 +24,7 @@ const user_info = {
       componentProps: { label: 'Email', placeholder: 'Enter your email...', name: 'email' },
       validations: [
         isMandatory('Please provide your email.'),
-        checkRegex('Please provide a valid email.', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+        checkRegex('Please provide a valid email.', /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
       ]
     },
     { 
