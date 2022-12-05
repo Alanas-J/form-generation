@@ -42,7 +42,7 @@ function RadioModal({field, value, setValue, componentProps, formState, setFormS
     }     
   }
 
-  const modalStyle: any = { backgroundColor: '#000000AA'};
+  const modalStyle = { backgroundColor: '#000000AA', display: ''};
   modalStyle.display = isHidden ? 'none' : 'block';
 
   return (

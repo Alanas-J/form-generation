@@ -1,7 +1,9 @@
 import React from 'react';
+import { FormConfiguration } from '../library/form-generation/FormGeneration';
+import { FormActionDispatch, FormState, RootComponentProps } from '../library/form-generation/types';
 
 // TODO: Add props expectations
-function RootComponent({FormPageRender, formState, dispatchFormAction, formConfiguration}: any) {
+function RootComponent({FormPageRender, formState, dispatchFormAction, formConfiguration}: RootComponentProps) {
   return (
     <div className="p-5">
       {FormPageRender}
@@ -15,7 +17,7 @@ function RootComponent({FormPageRender, formState, dispatchFormAction, formConfi
 }
 export default RootComponent;
 
-function NavButtons({formState, dispatchFormAction, formConfiguration}: any){
+function NavButtons({formState, dispatchFormAction, formConfiguration}: NavButtonsProps){
   const currentPage = formConfiguration.pages[formState._currentPage];
 
   return (
@@ -24,13 +26,16 @@ function NavButtons({formState, dispatchFormAction, formConfiguration}: any){
       { currentPage.isSubmissionPage ? 
         <button onClick={() => dispatchFormAction({type: 'submit'})}>Submit</button> : <button onClick={() => dispatchFormAction({type: 'next'})} disabled={!currentPage.next}>Next</button>
       }
-    
-        
     </>);
+}
+type NavButtonsProps = {
+  formState: FormState,
+  dispatchFormAction: FormActionDispatch,
+  formConfiguration: FormConfiguration
 }
 
 function SubmissionModal() {
-  const modalStyle: any = { backgroundColor: '#000000AA'};
+  const modalStyle = { backgroundColor: '#000000AA'};
 
   return(
     <div className='modal fade show d-block' tabIndex={-1} role="dialog" style={modalStyle}>
@@ -51,8 +56,8 @@ function SubmissionModal() {
   );
 }
 
-function SubmitCompleteModal( {dispatchFormAction}: any) {
-  const modalStyle: any = { backgroundColor: '#000000AA'};
+function SubmitCompleteModal( { dispatchFormAction }: SubmitCompleteModalProps) {
+  const modalStyle = { backgroundColor: '#000000AA'};
 
   return(
     <div className='modal fade show d-block' tabIndex={-1} role="dialog" style={modalStyle}>
@@ -66,4 +71,7 @@ function SubmitCompleteModal( {dispatchFormAction}: any) {
       </div>
     </div>
   );
+}
+type SubmitCompleteModalProps = {
+  dispatchFormAction: FormActionDispatch
 }

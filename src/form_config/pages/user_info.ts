@@ -1,6 +1,6 @@
 import FormComponents from '../../components';
 import { isMandatory, checkRegex } from '../../components/validations';
-import { FormPage } from '../../library/form-generation/types';
+import { FormState } from '../../library/form-generation/types';
 
 const user_info = {
   next: 'additional_details',
@@ -40,7 +40,7 @@ const user_info = {
       field: 'details.extra',
       component: FormComponents.BasicInput,
       componentProps: { label: 'Extra Field', placeholder: 'Text goes here...' },
-      showCondition: (formState: any) => (formState.details.showExtraField.value === 'Yes'),
+      showCondition: (formState: FormState) => (formState?.details?.showExtraField?.value === 'Yes'),
       validations: [
         isMandatory('This extra field is mandatory.')
       ]

@@ -25,7 +25,7 @@ function getFieldState(element: FormElement, formState: FormState) {
   return {value, validation};
 }
 
-function setFieldValue( element: FormElement, value: any, formState: FormState, onFieldChange: FormEvents['onFieldChange']) {
+function setFieldValue( element: FormElement, value: unknown, formState: FormState, onFieldChange: FormEvents['onFieldChange']) {
   if(element.field){
     const keys = element.field.split('.');
     
@@ -50,7 +50,7 @@ function validateField( element: FormElement, formState: FormState) {
   if(element.validations) {
     for(const validate of element.validations) {
       let result: FormElementValidation | undefined;
-      let value: any;
+      let value: unknown;
 
       if(element.field) {
         const keys = element.field.split('.');

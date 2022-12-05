@@ -2,11 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import { getFieldState, setFieldValue, validateField } from './fieldFunctions';
 import { processFormAction } from './formActions';
-import { FormAction, FormActionDispatch, FormElement, FormElementProps, FormEvents, FormPages, FormState, SetFormState } from './types';
+import { FormAction, FormActionDispatch, FormElement, FormElementProps, FormEvents, FormPages, FormState, RootComponentProps, SetFormState } from './types';
 
 class FormConfiguration {
   // TODO: add a class constructor
-  rootComponent: () => JSX.Element = () => (<>Error! A Root component must be provided</>); 
+  rootComponent: (props: RootComponentProps) => JSX.Element = () => (<>Error! A Root component must be provided</>); 
   pages:  FormPages = {};
   startOn = '';
   events: FormEvents = {};  
@@ -47,7 +47,7 @@ function renderElement(index: string, element: FormElement, formState: FormState
   const Component = element.component;
   
   const {value, validation} = getFieldState(element, formState);
-  const setValue = (value: any) => {
+  const setValue = (value: unknown) => {
     setFieldValue(element, value, formState, events.onFieldChange);
     setFormState(() => ({...formState}));
   };
@@ -69,7 +69,7 @@ function renderElement(index: string, element: FormElement, formState: FormState
   const key = `${element.field}_${Component.name}_${index}`;
   return (
     <Component key={key} {...props}>
-      {element.elements && element.elements.map((childElement: any, childIndex: number) => renderElement(index+'.'+childIndex, childElement, formState, setFormState, events, dispatchFormAction))}
+      {element.elements && element.elements.map((childElement: FormElement, childIndex: number) => renderElement(index+'.'+childIndex, childElement, formState, setFormState, events, dispatchFormAction))}
     </Component>
   );
 }

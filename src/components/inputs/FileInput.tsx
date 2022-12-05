@@ -6,6 +6,8 @@ function FileInput({ componentProps, value, setValue, validation }: FormElementP
   validation = validation === undefined ? {error: false} : validation;
   const inputClasses = `form-control ${validation?.error && 'is-invalid'}`;
 
+  // TODO: swap from any.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fileInput = useRef<any>({});
   useEffect(() => {
     if(fileInput) fileInput.current.files = value;

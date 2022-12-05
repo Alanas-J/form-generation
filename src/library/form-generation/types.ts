@@ -1,24 +1,26 @@
+import { FormConfiguration } from './FormGeneration';
+
 export type FormElement = {
     component: (props: FormElementProps) => JSX.Element,
     field?: string,
-    validations?: Array<Function> 
-    componentProps?: {[key: string]: any},
-    defaultValue?: any,
-    showCondition?: (formState: any) => boolean,
+    validations?: Array<(value: unknown) => FormElementValidation> 
+    componentProps?: {[key: string]: any },
+    defaultValue?: unknown,
+    showCondition?: (formState: unknown) => boolean,
     elements?: Array<FormElement>
 }
 export type FormElementProps = {
     component: (props: FormElementProps) => JSX.Element,
     field?: string,
-    validations?: Array<Function> 
+    validations?: Array<() => FormElementValidation> 
     componentProps?: {[key: string]: any;},
-    defaultValue?: any,
-    showCondition?: (formState: any) => boolean,
+    defaultValue?: unknown,
+    showCondition?: (formState: unknown) => boolean,
     elements?: Array<FormElement>,
 
     children?: (JSX.Element | undefined)[] | undefined,
-    value: any,
-    setValue: (value: any) => void,
+    value: unknown,
+    setValue: (value: unknown) => void,
     formState: FormState,
     setFormState: SetFormState,
     validation: FormElementValidation | undefined,
@@ -28,6 +30,13 @@ export type FormElementProps = {
 export type FormElementValidation = {
     error: boolean,
     message?: string,
+}
+export type RootComponentProps = {
+    FormPageRender: (JSX.Element | undefined)[],
+    dispatchFormAction: FormActionDispatch,
+    formState: FormState,
+    setFormState: SetFormState,
+    formConfiguration: FormConfiguration
 }
 
 export type FormPage = {
@@ -42,10 +51,10 @@ export type FormPages = {
 }
 
 export type FormEvents = {
-    onStep?: (currentPage: string, formState: FormState) => any,
-    onFieldChange?: (field: string, value: any, formState: FormState) => any,
-    onSubmit?: (formValues: object, dispatchFormAction: FormActionDispatch) => any,
-    onValidationFailure?: Function
+    onStep?: (currentPage: string, formState: FormState) => void,
+    onFieldChange?: (field: string, value: unknown, formState: FormState) => void,
+    onSubmit?: (formValues: object, dispatchFormAction: FormActionDispatch) => void,
+    // onValidationFailure?: Function
 }
 
 export type FormState = {
@@ -60,4 +69,4 @@ export type FormAction = {
     payload?: any
 }
 
-export type FormActionDispatch = (action: FormAction) => FormState | undefined;
+export type FormActionDispatch = (action: FormAction) => FormState;

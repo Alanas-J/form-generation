@@ -2,7 +2,7 @@ import { validateFields, getSubmissionValues } from './fieldFunctions';
 import { FormConfiguration } from './FormGeneration';
 import { FormState, SetFormState, FormAction } from './types';
 
-function processFormAction(action: FormAction, formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
+function processFormAction(action: FormAction, formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState): FormState {
   switch(action.type) {
   case 'next':
     return handleSteppingNext(formConfig, formState, setFormState);
@@ -15,6 +15,7 @@ function processFormAction(action: FormAction, formConfig: FormConfiguration, fo
   case 'reset-form': 
     return handleResetFormState(formConfig, formState, setFormState);
   }
+  throw `FormAction type ${action.type} is not recognised`;
 }
 
 function handleSteppingNext(formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
@@ -56,7 +57,7 @@ function handleSubmit(formConfig: FormConfiguration, formState: FormState, setFo
   return formState;
 }
 
-function handleSetFormState(action: any, formState: FormState, setFormState: SetFormState) {
+function handleSetFormState(action: FormState, formState: FormState, setFormState: SetFormState) {
   // TODO: add in guards later...
   setFormState(action);
   return formState;
