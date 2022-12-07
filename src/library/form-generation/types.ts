@@ -1,21 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormConfiguration } from './FormGeneration';
 
 export type FormElement = {
     component: (props: FormElementProps) => JSX.Element,
     field?: string,
-    validations?: Array<(value: unknown) => FormElementValidation> 
+    validations?: Array<(value: any) => FormElementValidation> 
     componentProps?: {[key: string]: any },
     defaultValue?: unknown,
-    showCondition?: (formState: unknown) => boolean,
+    showCondition?: (formState: FormState) => boolean,
     elements?: Array<FormElement>
 }
 export type FormElementProps = {
     component: (props: FormElementProps) => JSX.Element,
     field?: string,
-    validations?: Array<(value: unknown) => FormElementValidation> 
+    validations?: Array<() => FormElementValidation> 
     componentProps?: {[key: string]: any;},
     defaultValue?: unknown,
-    showCondition?: (formState: unknown) => boolean,
+    showCondition?: (formState: FormState) => boolean,
     elements?: Array<FormElement>,
 
     children?: (JSX.Element | undefined)[] | undefined,
@@ -24,7 +25,7 @@ export type FormElementProps = {
     formState: FormState,
     setFormState: SetFormState,
     validation: FormElementValidation | undefined,
-    validate: () => void,
+    validate: (value: any) => void,
     dispatchFormAction: FormActionDispatch
 }
 export type FormElementValidation = {
@@ -52,9 +53,9 @@ export type FormPages = {
 
 export type FormEvents = {
     onStep?: (currentPage: string, formState: FormState) => void,
+    onPageValidationFail?: (currentPage: string, formState: FormState) => void,
     onFieldChange?: (field: string, value: unknown, formState: FormState) => void,
-    onSubmit?: (formValues: object, dispatchFormAction: FormActionDispatch) => void,
-    // onValidationFailure?: Function
+    onSubmit?: (formValues: object, dispatchFormAction: FormActionDispatch) => void
 }
 
 export type FormState = {
@@ -64,9 +65,9 @@ export type FormState = {
 }
 export type SetFormState =  React.Dispatch<React.SetStateAction<FormState>>
 
-export type FormAction = {
+export type FormAction = { // TODO: Figure out exactly what a form action should look like
     type: string,
-    payload?: any
+    payload?: any 
 }
 
 export type FormActionDispatch = (action: FormAction) => FormState;

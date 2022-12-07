@@ -27,6 +27,8 @@ function handleSteppingNext(formConfig: FormConfiguration, formState: FormState,
       formState._currentPage = nextPage;
   
       if(events.onStep) events.onStep(formState._currentPage, formState);
+    } else {
+      if(events.onPageValidationFail) events.onPageValidationFail(formState._currentPage, formState);
     }
     setFormState({...formState});
   }

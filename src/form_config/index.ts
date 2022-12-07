@@ -21,6 +21,11 @@ formConfig.startOn = 'user_info';
 formConfig.events.onStep = (currentPage: string, formState: FormState) => {
   console.log(`Stepped to '${currentPage}'`, formState);
 };
+
+formConfig.events.onPageValidationFail = (currentPage: string, formState: FormState) => {
+  console.log(`Page validation failed on '${currentPage}'`, formState);
+};
+
 formConfig.events.onFieldChange = (field: string, value: unknown, formState: FormState) => {
   console.log(`${field} set to '${value}'`, formState);
 };
