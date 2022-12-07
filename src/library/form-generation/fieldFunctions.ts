@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormElement, FormElementValidation, FormEvents, FormState, FormPages } from './types';
 
 function getFieldState(element: FormElement, formState: FormState) {

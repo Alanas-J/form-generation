@@ -10,8 +10,8 @@ function processFormAction(action: FormAction, formConfig: FormConfiguration, fo
     return handleSteppingBack(formConfig, formState, setFormState);
   case 'submit':
     return handleSubmit(formConfig, formState, setFormState);
-  case 'set-form-state':
-    return handleSetFormState(action.payload, formState, setFormState);
+  case 'set-form-state': // TODO: This'll likely be removed.
+    return handleSetFormState(action.payload, formState, setFormState); 
   case 'reset-form': 
     return handleResetFormState(formConfig, formState, setFormState);
   }
@@ -50,9 +50,14 @@ function handleSteppingBack(formConfig: FormConfiguration, formState: FormState,
 
 function handleSubmit(formConfig: FormConfiguration, formState: FormState, setFormState: SetFormState) {
   const formValues = getSubmissionValues(formState, formConfig.pages);
-  const dispatchFormAction = (action: FormAction) => processFormAction(action, formConfig, formState, setFormState);
 
-  if(formConfig.events.onSubmit) formConfig.events.onSubmit(formValues, dispatchFormAction);
+  function completeSubmission(){
+    formState._submissionState = 'complete';
+    setFormState({...formState});
+  }
+
+  if(formConfig.events.onSubmit) formConfig.events.onSubmit(formValues, completeSubmission);
+  else console.error('You need to provide an onSubmit function to handle form submission.');
 
   formState._submissionState = 'submitting';
   setFormState({...formState});

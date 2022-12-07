@@ -13,7 +13,7 @@ export type FormElement = {
 export type FormElementProps = {
     component: (props: FormElementProps) => JSX.Element,
     field?: string,
-    validations?: Array<() => FormElementValidation> 
+    validations?: Array<(value: any) => FormElementValidation> 
     componentProps?: {[key: string]: any;},
     defaultValue?: unknown,
     showCondition?: (formState: FormState) => boolean,
@@ -55,7 +55,7 @@ export type FormEvents = {
     onStep?: (currentPage: string, formState: FormState) => void,
     onPageValidationFail?: (currentPage: string, formState: FormState) => void,
     onFieldChange?: (field: string, value: unknown, formState: FormState) => void,
-    onSubmit?: (formValues: object, dispatchFormAction: FormActionDispatch) => void
+    onSubmit?: (formValues: object, completeSubmission: () => void) => void
 }
 
 export type FormState = {

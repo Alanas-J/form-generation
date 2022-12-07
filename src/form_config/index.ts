@@ -30,10 +30,10 @@ formConfig.events.onFieldChange = (field: string, value: unknown, formState: For
   console.log(`${field} set to '${value}'`, formState);
 };
 
-formConfig.events.onSubmit = (formValues, dispatchFormAction) => {
+formConfig.events.onSubmit = (formValues, completeSubmission) => {
   console.log('Form Submitted', formValues);
 
   // Faking an API resolution
-  setTimeout(() => dispatchFormAction({type: 'set-form-state', payload: (fs: FormState) => ({...fs, _submissionState: 'complete'})}), 10000);
+  setTimeout(() => completeSubmission(), 10000);
 };
 export default formConfig.generate();
