@@ -12,7 +12,7 @@ export type FormElement = {
 export type FormElementProps = {
     component: (props: FormElementProps) => JSX.Element,
     field?: string,
-    validations?: Array<() => FormElementValidation> 
+    validations?: Array<(value: unknown) => FormElementValidation> 
     componentProps?: {[key: string]: any;},
     defaultValue?: unknown,
     showCondition?: (formState: unknown) => boolean,
@@ -60,7 +60,7 @@ export type FormEvents = {
 export type FormState = {
     _currentPage: string,
     _submissionState?: string 
-    [key: string]: any;
+    [key: string]: any
 }
 export type SetFormState =  React.Dispatch<React.SetStateAction<FormState>>
 

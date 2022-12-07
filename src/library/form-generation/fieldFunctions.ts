@@ -7,7 +7,7 @@ function getFieldState(element: FormElement, formState: FormState) {
   if(element.field){
     const keys = element.field.split('.');
     
-    let currentNode = formState;
+    let currentNode: any = formState;
     for(const key of keys) {
 
       if (currentNode[key] === undefined){
@@ -29,7 +29,7 @@ function setFieldValue( element: FormElement, value: unknown, formState: FormSta
   if(element.field){
     const keys = element.field.split('.');
     
-    let currentNode = formState;
+    let currentNode: any = formState;
     for(const key of keys) {
       if (currentNode[key] === undefined) currentNode[key] = {};
       currentNode = currentNode[key];
@@ -55,7 +55,7 @@ function validateField( element: FormElement, formState: FormState) {
       if(element.field) {
         const keys = element.field.split('.');
 
-        let currentNode = formState;
+        let currentNode: any = formState;
         for(const key of keys) {
           if (currentNode[key] === undefined) currentNode[key] = {};
           currentNode = currentNode[key];
@@ -95,14 +95,15 @@ function validateFields(elements: Array<FormElement>, formState: FormState): boo
 function getSubmissionValues(formState: FormState, pages: FormPages){
   const formValues = {};
 
-  function addFormValueFromElement(element: FormElement, formState: FormState, formValues: object){
+  function addFormValueFromElement(element: FormElement, formState: FormState, formValues: {[key: string]: unknown} ){
     if((element.showCondition && element.showCondition(formState)) || !element.showCondition){
       const {value} = getFieldState(element, formState);
   
       if(value && element.field){
         const keys = element.field.split('.');
         
-        let currentNode: {[key: string]: any} = formValues;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let currentNode: any = formValues;
         for(const key of keys){
           if(currentNode[key] === undefined) currentNode[key] = {};
           currentNode = currentNode[key];
