@@ -4,6 +4,16 @@ import { getFieldState, setFieldValue, validateField } from './fieldFunctions';
 import { processFormAction } from './formActions';
 import { FormAction, FormActionDispatch, FormElement, FormElementProps, FormEvents, FormPages, FormState, RootComponentProps, SetFormState } from './types';
 
+function useFormGenerator(formConfiguration: FormConfiguration) {
+  const [formState, setFormState] = useState<FormState>({_currentPage: formConfiguration.startOn});
+  const dispatchFormAction = (action: FormAction) => processFormAction(action, formConfiguration, formState, setFormState);
+
+  const FormPage = formConfiguration.pages[formState._currentPage].elements
+    .map((element: FormElement, index: number) => renderElement(''+index, element, formState, setFormState, formConfiguration.events, dispatchFormAction));
+
+  return {FormPage, formState, setFormState, dispatchFormAction};
+}
+
 class FormConfiguration {
   // TODO: add a class constructor
   rootComponent: (props: RootComponentProps) => JSX.Element = () => (<>Error! A Root component must be provided</>); 
@@ -74,4 +84,4 @@ function renderElement(index: string, element: FormElement, formState: FormState
   );
 }
 
-export {FormConfiguration};
+export {FormConfiguration, useFormGenerator};

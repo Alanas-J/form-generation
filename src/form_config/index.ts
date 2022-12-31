@@ -6,9 +6,7 @@ import summary from './pages/summary';
 import { FormState } from '../library/form-generation/types';
 import FormComponents from '../components';
 
-const formConfig = new FormConfiguration();
-
-formConfig.rootComponent = FormComponents.RootComponent; 
+const formConfig: any = {};
 
 formConfig.pages = {
   user_info,
@@ -18,6 +16,8 @@ formConfig.pages = {
 };
 
 formConfig.startOn = 'user_info';
+
+formConfig.events = {};
 formConfig.events.onStep = (currentPage: string, formState: FormState) => {
   console.log(`Stepped to '${currentPage}'`, formState);
 };
@@ -36,4 +36,4 @@ formConfig.events.onSubmit = (formValues, completeSubmission) => {
   // Faking an API resolution
   setTimeout(() => completeSubmission(), 10000);
 };
-export default formConfig.generate();
+export default formConfig;
